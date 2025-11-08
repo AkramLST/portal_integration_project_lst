@@ -1364,6 +1364,7 @@ app.get("/export/dat", async (req, res) => {
     let datPath, csvPath;
 
     if (isLocal) {
+      console.log("this is local");
       // ===== LOCAL: Save to Downloads folder =====
       const downloadsFolder = path.join(os.homedir(), "Downloads");
       if (!fs.existsSync(downloadsFolder)) {
@@ -1381,6 +1382,7 @@ app.get("/export/dat", async (req, res) => {
         count: records.length,
       });
     } else {
+      console.log("this is vercel");
       // ===== VERCEL: Use temp directory and send files directly =====
       const tempDir = os.tmpdir();
       datPath = createDatFile(tempDir, records);
