@@ -440,7 +440,7 @@ function createCsvFile(folder, records) {
 // =======================================
 // 🧩 Create .dat file
 // =======================================
-function createDatFile(folder, records) {
+function createDatFile(records) {
   // const datPath = path.join(folder, "SchoolData.dat");
 
   const lines = records.map((doc, idx) => {
