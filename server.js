@@ -1509,7 +1509,9 @@ app.get("/export/dat", async (req, res) => {
           (doc.teacherhubFemaleParticipants || 0) +
             (doc.starteacherhubFemaleParticipants || 0),
           doc.totalAccepted >= 5 ? "Yes" : "No",
-        ].join(",");
+        ]
+          .map((field) => `"${field}"`) // <-- wrap every field in quotes
+          .join(",");
       });
 
       const csvContent = [headers.join(","), ...rows].join("\r\n");
