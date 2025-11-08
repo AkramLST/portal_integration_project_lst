@@ -441,10 +441,10 @@ function createCsvFile(folder, records) {
 // 🧩 Create .dat file
 // =======================================
 function createDatFile(folder, records) {
-  const datPath = path.join(folder, "SchoolData.dat");
+  // const datPath = path.join(folder, "SchoolData.dat");
 
   const lines = records.map((doc, idx) => {
-    const levelAfterSept = calculateLevelAfterSept(doc);
+    // const levelAfterSept = calculateLevelAfterSept(doc);
 
     const reg = doc.registration[0] || {};
     const perc = doc.perception[0] || {};
@@ -754,9 +754,11 @@ function createDatFile(folder, records) {
     );
   });
 
-  fs.writeFileSync(datPath, lines.join("\n"), "utf-8");
-  console.log(`✅ .dat file created at: ${datPath}`);
-  return datPath;
+  // fs.writeFileSync(datPath, lines.join("\n"), "utf-8");
+  // console.log(`✅ .dat file created at: ${datPath}`);
+  // return datPath;
+  const content = lines.join("\n");
+  return content;
 }
 ///////////////testing api
 app.get("/test", async (req, res) => {
@@ -1510,16 +1512,16 @@ app.get("/export/dat", async (req, res) => {
         ].join(",");
       });
 
-      const csvContent = [headers.join(","), ...rows].join("\n");
+      // const csvContent = [headers.join(","), ...rows].join("\n");
 
-      res.setHeader("Content-Disposition", "attachment; filename=export.csv");
-      res.setHeader("Content-Type", "text/csv");
-      return res.send(csvContent);
-      // const datContent = createDatFile(records); // return string or buffer
+      // res.setHeader("Content-Disposition", "attachment; filename=export.csv");
+      // res.setHeader("Content-Type", "text/csv");
+      // return res.send(csvContent);
+      const datContent = createDatFile(records); // return string or buffer
 
-      // res.setHeader("Content-Disposition", "attachment; filename=records.dat");
-      // res.setHeader("Content-Type", "application/octet-stream");
-      // res.send(datContent);
+      res.setHeader("Content-Disposition", "attachment; filename=records.dat");
+      res.setHeader("Content-Type", "application/octet-stream");
+      res.send(datContent);
     }
   } catch (err) {
     console.error("❌ Error during export:", err);
