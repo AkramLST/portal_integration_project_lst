@@ -1359,25 +1359,53 @@ app.get("/export/dat", async (req, res) => {
     // =======================================
     // 🧩 Save .dat in Downloads folder
     // =======================================
-    const downloadsFolder = path.join(os.homedir(), "Downloads");
-    if (!fs.existsSync(downloadsFolder)) {
-      fs.mkdirSync(downloadsFolder, { recursive: true });
+    const isLocal = false;
+
+    if (isLocal) {
+      // ✅ LOCAL: Save files to Downloads folder
+      const downloadsFolder = path.join(os.homedir(), "Downloads");
+      if (!fs.existsSync(downloadsFolder)) {
+        fs.mkdirSync(downloadsFolder, { recursive: true });
+      }
+
+      const datPath = createDatFile(downloadsFolder, records);
+      const csvPath = createCsvFile(downloadsFolder, records);
+
+      res.json({
+        message: "✅ .dat and .csv files created in Downloads folder",
+        datFilePath: datPath,
+        csvFilePath: csvPath,
+        count: records.length,
+      });
+    } else {
+      // 🌍 DEPLOYED (Vercel or similar): Return CSV content directly
+      console.log("🌍 Running in deployed mode — streaming CSV data");
+
+      const csvLines = [];
+      const headers = Object.keys(records[0] || {});
+      csvLines.push(headers.join(","));
+      for (const record of records) {
+        const row = headers.map((h) => {
+          const val = record[h];
+          return typeof val === "object"
+            ? JSON.stringify(val).replace(/,/g, ";") // avoid breaking CSV
+            : val ?? "";
+        });
+        csvLines.push(row.join(","));
+      }
+
+      const csvContent = csvLines.join("\n");
+
+      // Set headers for browser download or Excel URL link
+      res.setHeader("Content-Disposition", "attachment; filename=export.csv");
+      res.setHeader("Content-Type", "text/csv");
+
+      return res.send(csvContent);
     }
-
-    const datPath = createDatFile(downloadsFolder, records);
-    const csvPath = createCsvFile(downloadsFolder, records);
-
-    res.json({
-      message:
-        "✅ .dat and .csv files successfully created in Downloads folder",
-      datFilePath: datPath,
-      csvFilePath: csvPath,
-      count: records.length,
-    });
   } catch (err) {
     console.error("❌ Error during export:", err);
     res.status(500).json({
-      error: "Failed to export .dat file",
+      error: "Failed to export data",
       details: err.message,
     });
   } finally {
