@@ -1359,21 +1359,44 @@ app.get("/export/dat", async (req, res) => {
     // =======================================
     // 🧩 Save .dat in Downloads folder
     // =======================================
-    const downloadsFolder = path.join(os.homedir(), "Downloads");
-    if (!fs.existsSync(downloadsFolder)) {
-      fs.mkdirSync(downloadsFolder, { recursive: true });
+    // Determine environment
+    const isLocal = process.env.VERCEL === undefined; // true if running locally
+    let datPath, csvPath;
+
+    if (isLocal) {
+      // ===== LOCAL: Save to Downloads folder =====
+      const downloadsFolder = path.join(os.homedir(), "Downloads");
+      if (!fs.existsSync(downloadsFolder)) {
+        fs.mkdirSync(downloadsFolder, { recursive: true });
+      }
+
+      datPath = createDatFile(downloadsFolder, records);
+      csvPath = createCsvFile(downloadsFolder, records);
+
+      res.json({
+        message:
+          "✅ .dat and .csv files successfully created in Downloads folder",
+        datFilePath: datPath,
+        csvFilePath: csvPath,
+        count: records.length,
+      });
+    } else {
+      // ===== VERCEL: Use temp directory and send files directly =====
+      const tempDir = os.tmpdir();
+      datPath = createDatFile(tempDir, records);
+      csvPath = createCsvFile(tempDir, records);
+
+      // Send .dat file as a download
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="SchoolData.csv"'
+      );
+      res.setHeader("Content-Type", "application/octet-stream");
+      const fileStream = fs.createReadStream(csvPath);
+      fileStream.pipe(res);
+
+      // Note: If you want to send CSV as well, you'll need another route or zip both
     }
-
-    const datPath = createDatFile(downloadsFolder, records);
-    const csvPath = createCsvFile(downloadsFolder, records);
-
-    res.json({
-      message:
-        "✅ .dat and .csv files successfully created in Downloads folder",
-      datFilePath: datPath,
-      csvFilePath: csvPath,
-      count: records.length,
-    });
   } catch (err) {
     console.error("❌ Error during export:", err);
     res.status(500).json({
