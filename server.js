@@ -1507,14 +1507,12 @@ app.get("/export/dat", async (req, res) => {
           (doc.teacherhubFemaleParticipants || 0) +
             (doc.starteacherhubFemaleParticipants || 0),
           doc.totalAccepted >= 5 ? "Yes" : "No",
-        ]
-          .join(";")
-          .join("\n");
+        ].join(",");
       });
 
       const csvContent = [headers.join(","), ...rows].join("\n");
 
-      res.setHeader("Content-Disposition", 'inline; filename="SchoolData.csv"');
+      res.setHeader("Content-Disposition", "attachment; filename=export.csv");
       res.setHeader("Content-Type", "text/csv");
       return res.send(csvContent);
     }
