@@ -1509,10 +1509,10 @@ app.get("/export/dat", async (req, res) => {
           (doc.teacherhubFemaleParticipants || 0) +
             (doc.starteacherhubFemaleParticipants || 0),
           doc.totalAccepted >= 5 ? "Yes" : "No",
-        ].join(",");
+        ].join(";");
       });
 
-      const csvContent = [headers.join(";"), ...rows].join("\r\n");
+      const csvContent = [headers.join(","), ...rows].join("\r\n");
       res.setHeader("Content-Disposition", "inline; filename=export.csv");
       res.setHeader("Content-Type", "text/csv");
       res.send(csvContent);
