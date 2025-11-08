@@ -1378,28 +1378,133 @@ app.get("/export/dat", async (req, res) => {
         count: records.length,
       });
     } else {
-      // 🌍 DEPLOYED (Vercel or similar): Return CSV content directly
+      // 🌍 DEPLOYED (Vercel or similar): Return CSV content with friendly headers
       console.log("🌍 Running in deployed mode — streaming CSV data");
 
-      const csvLines = [];
-      const headers = Object.keys(records[0] || {});
-      csvLines.push(headers.join(","));
-      for (const record of records) {
-        const row = headers.map((h) => {
-          const val = record[h];
-          return typeof val === "object"
-            ? JSON.stringify(val).replace(/,/g, ";") // avoid breaking CSV
-            : val ?? "";
-        });
-        csvLines.push(row.join(","));
-      }
+      const headers = [
+        "Province",
+        "District",
+        "EMIS Code",
+        "School Name",
+        "Type of School",
+        "Tier of School",
+        "Consent Form",
+        "STEAM Journey Level of School",
+        "Change in Level of School after 30th September",
+        "STEAM Journey Cycle of School",
+        "Focal Person",
+        "Phone",
+        "Email",
+        "Designation",
+        "Submission Date of STEAM Club Student Registration",
+        "Number of Students Registered in STEAM Clubs",
+        "Number of Male Students Registered in STEAM Clubs",
+        "Number of Female Students Registered in STEAM Clubs",
+        "Number of Teachers who Participated in Baseline Perception",
+        "Number of Teachers who Participated in Endline Perception",
+        "STEAM Club Activities",
+        "STEAM Safeer Activities",
+        "Teacher Hub Activities",
+        "Storytelling Activities",
+        "STEAM Demo Activities",
+        "Whole School Activities",
+        "One Day STEAM Competition",
+        "STAR STEAM Club Activities",
+        "Total Number of Activities Submitted by ILMPact School",
+        "Total Number of Activities Approved",
+        "Total Number of Activities Not Approved",
+        "Total Number of Activities Under Review",
+        "Total Number of Students Engaged in STEAM Club Activities",
+        "Total Number of Male Students Engaged",
+        "Total Number of Female Students Engaged",
+        "Total Number of Teachers Engaged in STEAM Club Activities",
+        "Total Number of Male Teachers Engaged",
+        "Total Female Teachers in STEAM Club Activities",
+        "Schools that Completed 5 Approved Activities",
+      ];
 
-      const csvContent = csvLines.join("\n");
+      const rows = records.map((doc) => {
+        const reg = doc.registration?.[0] || {};
+        const perc = doc.perception?.[0] || {};
+        const end = doc.endPerception?.[0] || {};
 
-      // Set headers for browser download or Excel URL link
+        const levelAfterSept = calculateLevelAfterSept(doc);
+
+        return [
+          `"${doc.province || ""}"`,
+          `"${doc.district || ""}"`,
+          `"${doc.emiscode || ""}"`,
+          `"${doc.schoolName || ""}"`,
+          `"${doc.typeOfSchool || ""}"`,
+          `"${doc.tierOfSchool || ""}"`,
+          `"${doc.status || ""}"`,
+          `"${doc.schoollevel || ""}"`,
+          `"${levelAfterSept}"`,
+          `"${doc.cycle || ""}"`,
+          `"${doc.name || ""}"`,
+          `"${doc.phone || ""}"`,
+          `"${doc.email || ""}"`,
+          `"${doc.role || ""}"`,
+          `"${formatDate(reg.createdAt)}"`,
+          reg.numberOfParticipants || 0,
+          reg.maleParticipants || 0,
+          reg.femaleParticipants || 0,
+          perc.formDataCount || 0,
+          end.formDataCount || 0,
+          doc.steamclubActs || 0,
+          doc.steamsafeerclubActs || 0,
+          doc.teacherhubActs || 0,
+          doc.storysessionActs || 0,
+          doc.steamclubdemoActs || 0,
+          doc.wholeschoolActs || 0,
+          doc.onedaycompActs || 0,
+          (doc.starsteamclubActs || 0) +
+            (doc.starsteamsafeerActs || 0) +
+            (doc.starteacherhubActs || 0) +
+            (doc.starstorysessionActs || 0) +
+            (doc.starsteamclubdemoActs || 0),
+          doc.totalActivities || 0,
+          doc.totalAccepted || 0,
+          doc.totalRejected || 0,
+          doc.totalPending || 0,
+          (doc.steamclubParticipants || 0) +
+            (doc.starsteamclubParticipants || 0) +
+            (doc.storysessionParticipants || 0) +
+            (doc.starstorysessionParticipants || 0) +
+            (doc.steamsafeerclubParticipants || 0) +
+            (doc.starsteamsafeerParticipants || 0) +
+            (doc.steamclubdemoParticipants || 0) +
+            (doc.starsteamclubdemoParticipants || 0),
+          (doc.steamclubMaleParticipants || 0) +
+            (doc.starsteamclubMaleParticipants || 0) +
+            (doc.storysessionMaleParticipants || 0) +
+            (doc.starstorysessionMaleParticipants || 0) +
+            (doc.steamsafeerclubMaleParticipants || 0) +
+            (doc.starsteamsafeerMaleParticipants || 0) +
+            (doc.steamclubdemoMaleParticipants || 0) +
+            (doc.starsteamclubdemoMaleParticipants || 0),
+          (doc.steamclubFemaleParticipants || 0) +
+            (doc.starsteamclubFemaleParticipants || 0) +
+            (doc.storysessionFemaleParticipants || 0) +
+            (doc.starstorysessionFemaleParticipants || 0) +
+            (doc.steamsafeerclubFemaleParticipants || 0) +
+            (doc.starsteamsafeerFemaleParticipants || 0) +
+            (doc.steamclubdemoFemaleParticipants || 0) +
+            (doc.starsteamclubdemoFemaleParticipants || 0),
+          (doc.teacherhubParticipants || 0) +
+            (doc.starteacherhubParticipants || 0),
+          (doc.teacherhubMaleParticipants || 0) +
+            (doc.starteacherhubMaleParticipants || 0),
+          (doc.teacherhubFemaleParticipants || 0) +
+            (doc.starteacherhubFemaleParticipants || 0),
+          doc.totalAccepted >= 5 ? "Yes" : "No",
+        ].join(",");
+      });
+
+      const csvContent = [headers.join(","), ...rows].join("\n");
+
       res.setHeader("Content-Disposition", "attachment; filename=export.csv");
       res.setHeader("Content-Type", "text/csv");
-
       return res.send(csvContent);
     }
   } catch (err) {
