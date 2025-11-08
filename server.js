@@ -754,9 +754,19 @@ function createDatFile(folder, records) {
     );
   });
 
-  fs.writeFileSync(datPath, lines.join("\n"), "utf-8");
-  console.log(`✅ .dat file created at: ${datPath}`);
-  return datPath;
+  const content = lines.join("\n");
+
+  if (folder) {
+    // Write to disk if folder/path is provided
+    if (!fs.existsSync(folder)) fs.mkdirSync(folder, { recursive: true });
+    const datPath = path.join(folder, "SchoolData.dat");
+    fs.writeFileSync(datPath, content, "utf-8");
+    console.log(`✅ .dat file created at: ${datPath}`);
+    return datPath; // return path for local use
+  }
+
+  // If no folder passed, just return the content string
+  return content;
 }
 ///////////////testing api
 app.get("/test", async (req, res) => {
@@ -1515,7 +1525,7 @@ app.get("/export/dat", async (req, res) => {
       // res.setHeader("Content-Disposition", "attachment; filename=export.csv");
       // res.setHeader("Content-Type", "text/csv");
       // return res.send(csvContent);
-      const datContent = createDatFile(records); // return string or buffer
+      const datContent = createDatFile(null, records); // return string or buffer
 
       res.setHeader("Content-Disposition", "attachment; filename=records.dat");
       res.setHeader("Content-Type", "application/octet-stream");
