@@ -154,57 +154,36 @@ const FIELD_WIDTHS = {
   email: 80,
 
   role: 20,
-  reg_createdAt: 20,
-  reg_numberOfParticipants: 10,
-  reg_maleParticipants: 10,
-  reg_femaleParticipants: 10,
+  submission_date_student_registration: 20,
+  students_registered_steamculb_registration: 10,
+  male_students_registered_steamculb_registration: 10,
+  female_students_registered_steamculb_registration: 10,
 
   // Perception
-  perception_teachersEng: 10,
+  teachers_participated_baseline_perception: 10,
 
   // End Perception
-  end_teacherEng: 10,
-
-  // Registration
-
-  //Steam Club
+  teachers_participated_endline_perception: 10,
 
   steamclubActs: 10,
-  // steamclubParticipants: 10,
-  // steamclubMaleParticipants: 10,
-  // steamclubFemaleParticipants: 10,
+
   steamsafeerclubActs: 10,
-  // steamsafeerclubParticipants: 10,
-  // steamsafeerclubMaleParticipants: 10,
-  // steamsafeerclubFemaleParticipants: 10,
 
   teacherhubActs: 10,
-  // teacherhubParticipants: 10,
-  // teacherhubMaleParticipants: 10,
-  // teacherhubFemaleParticipants: 10,
 
   storysessionActs: 10,
-  // storysessionParticipants: 10,
-  // storysessionMaleParticipants: 10,
-  // storysessionFemaleParticipants: 10,
 
   steamclubdemoActs: 10,
-  // steamclubdemoParticipants: 10,
-  // steamclubdemoMaleParticipants: 10,
-  // steamclubdemoFemaleParticipants: 10,
 
   wholeschoolActs: 10,
-  // wholeschoolParticipants: 10,
-  // wholeschoolMaleParticipants: 10,
-  // wholeschoolFemaleParticipants: 10,
+
   onedaysteamcompActs: 10,
   starsteamtotalActs: 10,
   /////////////////
-  totalacts: 10,
-  acceptedacts: 10,
-  rejectedacts: 10,
-  pendingacts: 10,
-  ////more than 5 acts
+  total_acts_submitted: 10,
+  total_acts_accepted: 10,
+  total_acts_rejected: 10,
+  total_acts_under_review: 10,
 
   // totalSteamclubActs: 10,
   totalStudentsInSteamClubActs: 10,
@@ -498,30 +477,34 @@ function createDatFile(records) {
         reg.createdAt
           ? new Date(reg.createdAt).toISOString().split("T")[0]
           : "",
-        FIELD_WIDTHS.reg_createdAt
+        FIELD_WIDTHS.submission_date_student_registration
       ) +
       formatField(
         reg.numberOfParticipants,
-        FIELD_WIDTHS.reg_numberOfParticipants,
+        FIELD_WIDTHS.students_registered_steamculb_registration,
         "right"
       ) +
       formatField(
         reg.maleParticipants,
-        FIELD_WIDTHS.reg_maleParticipants,
+        FIELD_WIDTHS.male_students_registered_steamculb_registration,
         "right"
       ) +
       formatField(
         reg.femaleParticipants,
-        FIELD_WIDTHS.reg_femaleParticipants,
+        FIELD_WIDTHS.female_students_registered_steamculb_registration,
         "right"
       ) +
       formatField(
         perc.formDataCount,
-        FIELD_WIDTHS.perception_teachersEng,
+        FIELD_WIDTHS.teachers_participated_baseline_perception,
         "right"
       ) +
       // End Perception
-      formatField(end.formDataCount, FIELD_WIDTHS.end_teacherEng, "right") +
+      formatField(
+        end.formDataCount,
+        FIELD_WIDTHS.teachers_participated_endline_perception,
+        "right"
+      ) +
       formatField(
         doc.steamclubActs ?? 0,
         FIELD_WIDTHS.steamclubActs,
@@ -682,10 +665,26 @@ function createDatFile(records) {
         "right",
         " "
       ) +
-      formatField(doc.totalActivities, FIELD_WIDTHS.totalacts, "right") +
-      formatField(doc.totalAccepted, FIELD_WIDTHS.acceptedacts, "right") +
-      formatField(doc.totalRejected, FIELD_WIDTHS.rejectedacts, "right") +
-      formatField(doc.totalPending, FIELD_WIDTHS.pendingacts, "right") +
+      formatField(
+        doc.totalActivities,
+        FIELD_WIDTHS.total_acts_submitted,
+        "right"
+      ) +
+      formatField(
+        doc.totalAccepted,
+        FIELD_WIDTHS.total_acts_accepted,
+        "right"
+      ) +
+      formatField(
+        doc.totalRejected,
+        FIELD_WIDTHS.total_acts_rejected,
+        "right"
+      ) +
+      formatField(
+        doc.totalPending,
+        FIELD_WIDTHS.total_acts_under_review,
+        "right"
+      ) +
       formatField(
         (doc.steamclubParticipants ?? 0) +
           (doc.starsteamclubParticipants ?? 0) +
