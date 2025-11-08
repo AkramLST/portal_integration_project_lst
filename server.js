@@ -758,11 +758,15 @@ function createDatFile(folder, records) {
   console.log(`✅ .dat file created at: ${datPath}`);
   return datPath;
 }
-
+///////////////testing api
+app.get("/test", async (req, res) => {
+  res.send("Testing Env Api is Working");
+  console.log("Server response");
+});
 // =======================================
 // 🧩 API Endpoint: /export/dat
 // =======================================
-app.get("/export/dat", authMiddleware, async (req, res) => {
+app.get("/export/dat", async (req, res) => {
   console.log("\n🔄 Starting .dat export process...");
 
   try {
