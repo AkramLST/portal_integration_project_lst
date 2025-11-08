@@ -1380,7 +1380,16 @@ app.get("/export/dat", async (req, res) => {
     } else {
       // 🌍 DEPLOYED (Vercel or similar): Return CSV content with friendly headers
       console.log("🌍 Running in deployed mode — streaming CSV data");
-
+      // Helper: format date like "17-Sep-2025"
+      function formatDate(date) {
+        if (!date) return "";
+        const d = new Date(date);
+        if (isNaN(d)) return "";
+        const day = d.getDate().toString().padStart(2, "0");
+        const month = d.toLocaleString("en-US", { month: "short" });
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+      }
       const headers = [
         "Province",
         "District",
