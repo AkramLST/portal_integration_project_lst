@@ -1512,7 +1512,7 @@ app.get("/export/dat", async (req, res) => {
         ].join(",");
       });
 
-      const csvContent = [headers.join(","), ...rows].join("\r\n");
+      const csvContent = [headers.join(";"), ...rows].join("\r\n");
       res.setHeader("Content-Disposition", "inline; filename=export.csv");
       res.setHeader("Content-Type", "text/csv");
       res.send(csvContent);
