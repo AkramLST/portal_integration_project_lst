@@ -1510,11 +1510,14 @@ app.get("/export/dat", async (req, res) => {
             (doc.starteacherhubFemaleParticipants || 0),
           doc.totalAccepted >= 5 ? "Yes" : "No",
         ]
-          .map((field) => `"${field}"`) // <-- wrap every field in quotes
+          .map((field) => `"${String(field).replace(/"/g, '""')}"`)
           .join(",");
       });
 
-      const csvContent = [headers.join(","), ...rows].join("\r\n");
+      const csvContent = [
+        headers.map((h) => `"${h}"`).join(","), // <-- wrap headers in quotes
+        ...rows,
+      ].join("\r\n");
       res.setHeader("Content-Disposition", "inline; filename=export.csv");
       res.setHeader("Content-Type", "text/csv");
       res.send(csvContent);
