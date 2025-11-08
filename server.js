@@ -1514,8 +1514,8 @@ app.get("/export/dat", async (req, res) => {
 
       const csvContent = [headers.join(","), ...rows].join("\n");
 
-      res.setHeader("Content-Disposition", "attachment; filename=export.csv");
-      res.setHeader("Content-Type", "text/csv");
+      // res.setHeader("Content-Disposition", "attachment; filename=export.csv");
+      // res.setHeader("Content-Type", "text/csv");
       return res.send(csvContent);
       // const datContent = createDatFile(records); // return string or buffer
 
