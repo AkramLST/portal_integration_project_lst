@@ -1510,11 +1510,16 @@ app.get("/export/dat", async (req, res) => {
         ].join(",");
       });
 
-      const csvContent = [headers.join(","), ...rows].join("\n");
+      // const csvContent = [headers.join(","), ...rows].join("\n");
 
-      res.setHeader("Content-Disposition", "attachment; filename=export.csv");
-      res.setHeader("Content-Type", "text/csv");
-      return res.send(csvContent);
+      // res.setHeader("Content-Disposition", "attachment; filename=export.csv");
+      // res.setHeader("Content-Type", "text/csv");
+      // return res.send(csvContent);
+      const datContent = createDatFile(records); // return string or buffer
+
+      res.setHeader("Content-Disposition", "attachment; filename=records.dat");
+      res.setHeader("Content-Type", "application/octet-stream");
+      res.send(datContent);
     }
   } catch (err) {
     console.error("❌ Error during export:", err);
