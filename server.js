@@ -1360,7 +1360,7 @@ app.get("/export/dat", async (req, res) => {
     // 🧩 Save .dat in Downloads folder
     // =======================================
     // Determine environment
-    const isLocal = process.env.VERCEL === undefined; // true if running locally
+    const isLocal = process.env.VERCEL !== undefined; // true if running locally
     let datPath, csvPath;
 
     if (isLocal) {
