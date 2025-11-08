@@ -1461,81 +1461,101 @@ app.get("/export/dat", async (req, res) => {
 
         const levelAfterSept = calculateLevelAfterSept(doc);
 
+        // ✅ Always wrap fields in quotes and replace internal quotes
+        const wrap = (val) => `"${(val ?? "").toString().replace(/"/g, '""')}"`;
+
         return [
-          doc.province || "",
-          doc.district || "",
-          doc.emiscode || "",
-          doc.schoolName || "",
-          doc.typeOfSchool || "",
-          doc.tierOfSchool || "",
-          doc.status || "",
-          doc.schoollevel || "",
-          levelAfterSept,
-          doc.cycle || "",
-          doc.name || "",
-          doc.phone || "",
-          doc.email || "",
-          doc.role || "",
-          formatDate(reg.createdAt),
-          reg.numberOfParticipants || 0,
-          reg.maleParticipants || 0,
-          reg.femaleParticipants || 0,
-          perc.formDataCount || 0,
-          end.formDataCount || 0,
-          doc.steamclubActs || 0,
-          doc.steamsafeerclubActs || 0,
-          doc.teacherhubActs || 0,
-          doc.storysessionActs || 0,
-          doc.steamclubdemoActs || 0,
-          doc.wholeschoolActs || 0,
-          doc.onedaycompActs || 0,
-          (doc.starsteamclubActs || 0) +
-            (doc.starsteamsafeerActs || 0) +
-            (doc.starteacherhubActs || 0) +
-            (doc.starstorysessionActs || 0) +
-            (doc.starsteamclubdemoActs || 0),
-          doc.totalActivities || 0,
-          doc.totalAccepted || 0,
-          doc.totalRejected || 0,
-          doc.totalPending || 0,
-          (doc.steamclubParticipants || 0) +
-            (doc.starsteamclubParticipants || 0) +
-            (doc.storysessionParticipants || 0) +
-            (doc.starstorysessionParticipants || 0) +
-            (doc.steamsafeerclubParticipants || 0) +
-            (doc.starsteamsafeerParticipants || 0) +
-            (doc.steamclubdemoParticipants || 0) +
-            (doc.starsteamclubdemoParticipants || 0),
-          (doc.steamclubMaleParticipants || 0) +
-            (doc.starsteamclubMaleParticipants || 0) +
-            (doc.storysessionMaleParticipants || 0) +
-            (doc.starstorysessionMaleParticipants || 0) +
-            (doc.steamsafeerclubMaleParticipants || 0) +
-            (doc.starsteamsafeerMaleParticipants || 0) +
-            (doc.steamclubdemoMaleParticipants || 0) +
-            (doc.starsteamclubdemoMaleParticipants || 0),
-          (doc.steamclubFemaleParticipants || 0) +
-            (doc.starsteamclubFemaleParticipants || 0) +
-            (doc.storysessionFemaleParticipants || 0) +
-            (doc.starstorysessionFemaleParticipants || 0) +
-            (doc.steamsafeerclubFemaleParticipants || 0) +
-            (doc.starsteamsafeerFemaleParticipants || 0) +
-            (doc.steamclubdemoFemaleParticipants || 0) +
-            (doc.starsteamclubdemoFemaleParticipants || 0),
-          (doc.teacherhubParticipants || 0) +
-            (doc.starteacherhubParticipants || 0),
-          (doc.teacherhubMaleParticipants || 0) +
-            (doc.starteacherhubMaleParticipants || 0),
-          (doc.teacherhubFemaleParticipants || 0) +
-            (doc.starteacherhubFemaleParticipants || 0),
-          doc.totalAccepted >= 5 ? "Yes" : "No",
+          wrap(doc.province),
+          wrap(doc.district),
+          wrap(doc.emiscode),
+          wrap(doc.schoolName),
+          wrap(doc.typeOfSchool),
+          wrap(doc.tierOfSchool),
+          wrap(doc.status),
+          wrap(doc.schoollevel),
+          wrap(levelAfterSept),
+          wrap(doc.cycle),
+          wrap(doc.name),
+          wrap(doc.phone),
+          wrap(doc.email),
+          wrap(doc.role),
+          wrap(formatDate(reg.createdAt)),
+          wrap(reg.numberOfParticipants),
+          wrap(reg.maleParticipants),
+          wrap(reg.femaleParticipants),
+          wrap(perc.formDataCount),
+          wrap(end.formDataCount),
+          wrap(doc.steamclubActs),
+          wrap(doc.steamsafeerclubActs),
+          wrap(doc.teacherhubActs),
+          wrap(doc.storysessionActs),
+          wrap(doc.steamclubdemoActs),
+          wrap(doc.wholeschoolActs),
+          wrap(doc.onedaycompActs),
+          wrap(
+            (doc.starsteamclubActs || 0) +
+              (doc.starsteamsafeerActs || 0) +
+              (doc.starteacherhubActs || 0) +
+              (doc.starstorysessionActs || 0) +
+              (doc.starsteamclubdemoActs || 0)
+          ),
+          wrap(doc.totalActivities),
+          wrap(doc.totalAccepted),
+          wrap(doc.totalRejected),
+          wrap(doc.totalPending),
+          wrap(
+            (doc.steamclubParticipants || 0) +
+              (doc.starsteamclubParticipants || 0) +
+              (doc.storysessionParticipants || 0) +
+              (doc.starstorysessionParticipants || 0) +
+              (doc.steamsafeerclubParticipants || 0) +
+              (doc.starsteamsafeerParticipants || 0) +
+              (doc.steamclubdemoParticipants || 0) +
+              (doc.starsteamclubdemoParticipants || 0)
+          ),
+          wrap(
+            (doc.steamclubMaleParticipants || 0) +
+              (doc.starsteamclubMaleParticipants || 0) +
+              (doc.storysessionMaleParticipants || 0) +
+              (doc.starstorysessionMaleParticipants || 0) +
+              (doc.steamsafeerclubMaleParticipants || 0) +
+              (doc.starsteamsafeerMaleParticipants || 0) +
+              (doc.steamclubdemoMaleParticipants || 0) +
+              (doc.starsteamclubdemoMaleParticipants || 0)
+          ),
+          wrap(
+            (doc.steamclubFemaleParticipants || 0) +
+              (doc.starsteamclubFemaleParticipants || 0) +
+              (doc.storysessionFemaleParticipants || 0) +
+              (doc.starstorysessionFemaleParticipants || 0) +
+              (doc.steamsafeerclubFemaleParticipants || 0) +
+              (doc.starsteamsafeerFemaleParticipants || 0) +
+              (doc.steamclubdemoFemaleParticipants || 0) +
+              (doc.starsteamclubdemoFemaleParticipants || 0)
+          ),
+          wrap(
+            (doc.teacherhubParticipants || 0) +
+              (doc.starteacherhubParticipants || 0)
+          ),
+          wrap(
+            (doc.teacherhubMaleParticipants || 0) +
+              (doc.starteacherhubMaleParticipants || 0)
+          ),
+          wrap(
+            (doc.teacherhubFemaleParticipants || 0) +
+              (doc.starteacherhubFemaleParticipants || 0)
+          ),
+          wrap(doc.totalAccepted >= 5 ? "Yes" : "No"),
         ].join(",");
       });
 
-      const csvContent = [headers.join(","), ...rows].join("\r\n");
+      // ✅ Add UTF-8 BOM and consistent line breaks
+      const csvContent = "\uFEFF" + [headers.join(","), ...rows].join("\r\n");
+
       res.setHeader("Content-Disposition", "inline; filename=export.csv");
-      res.setHeader("Content-Type", "text/csv");
+      res.setHeader("Content-Type", "text/csv; charset=utf-8");
       res.send(csvContent);
+
       // const datContent = createDatFile(records); // return string or buffer
 
       // res.setHeader("Content-Disposition", "attachment; filename=records.dat");
