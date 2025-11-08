@@ -1442,21 +1442,21 @@ app.get("/export/dat", async (req, res) => {
         const levelAfterSept = calculateLevelAfterSept(doc);
 
         return [
-          `"${doc.province || ""}"`,
-          `"${doc.district || ""}"`,
-          `"${doc.emiscode || ""}"`,
-          `"${doc.schoolName || ""}"`,
-          `"${doc.typeOfSchool || ""}"`,
-          `"${doc.tierOfSchool || ""}"`,
-          `"${doc.status || ""}"`,
-          `"${doc.schoollevel || ""}"`,
-          `"${levelAfterSept}"`,
-          `"${doc.cycle || ""}"`,
-          `"${doc.name || ""}"`,
-          `"${doc.phone || ""}"`,
-          `"${doc.email || ""}"`,
-          `"${doc.role || ""}"`,
-          `"${formatDate(reg.createdAt)}"`,
+          doc.province || "",
+          doc.district || "",
+          doc.emiscode || "",
+          doc.schoolName || "",
+          doc.typeOfSchool || "",
+          doc.tierOfSchool || "",
+          doc.status || "",
+          doc.schoollevel || "",
+          levelAfterSept,
+          doc.cycle || "",
+          doc.name || "",
+          doc.phone || "",
+          doc.email || "",
+          doc.role || "",
+          formatDate(reg.createdAt),
           reg.numberOfParticipants || 0,
           reg.maleParticipants || 0,
           reg.femaleParticipants || 0,
@@ -1513,10 +1513,9 @@ app.get("/export/dat", async (req, res) => {
       });
 
       const csvContent = [headers.join(","), ...rows].join("\r\n");
-
       res.setHeader("Content-Disposition", "inline; filename=export.csv");
       res.setHeader("Content-Type", "text/csv");
-      return res.send(csvContent);
+      res.send(csvContent);
       // const datContent = createDatFile(records); // return string or buffer
 
       // res.setHeader("Content-Disposition", "attachment; filename=records.dat");
