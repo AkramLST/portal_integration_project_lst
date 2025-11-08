@@ -1532,15 +1532,15 @@ app.get("/export/dat", authMiddleware, async (req, res) => {
         ].join(",");
       });
 
-      // const csvContent = [headers.join(","), ...rows].join("\r\n");
-      // res.setHeader("Content-Disposition", "inline; filename=export.csv");
-      // res.setHeader("Content-Type", "text/csv");
-      // res.send(csvContent);
-      const datContent = createDatFile(records); // return string or buffer
+      const csvContent = [headers.join(","), ...rows].join("\r\n");
+      res.setHeader("Content-Disposition", "inline; filename=export.csv");
+      res.setHeader("Content-Type", "text/csv");
+      res.send(csvContent);
+      // const datContent = createDatFile(records); // return string or buffer
 
-      res.setHeader("Content-Disposition", "attachment; filename=records.dat");
-      res.setHeader("Content-Type", "application/octet-stream");
-      res.send(datContent);
+      // res.setHeader("Content-Disposition", "attachment; filename=records.dat");
+      // res.setHeader("Content-Type", "application/octet-stream");
+      // res.send(datContent);
     }
   } catch (err) {
     console.error("❌ Error during export:", err);
