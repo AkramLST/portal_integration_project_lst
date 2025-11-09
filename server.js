@@ -148,7 +148,7 @@ const FIELD_WIDTHS = {
   schoolname: 100,
   typeOfSchool: 50,
   tierOfSchool: 50,
-  status: 20,
+  consent: 20,
   schoollevel: 10,
   levelafterSep: 10,
   cycle: 10,
@@ -156,7 +156,7 @@ const FIELD_WIDTHS = {
   phone: 15,
   email: 80,
 
-  role: 20,
+  designation: 20,
   submission_date_student_registration: 20,
   students_registered_steamculb_registration: 10,
   male_students_registered_steamculb_registration: 10,
@@ -453,7 +453,7 @@ function createDatFile(records) {
         "left",
         " "
       ) +
-      formatField(doc.status ?? "", FIELD_WIDTHS.status, "left", " ") +
+      formatField(doc.status ?? "", FIELD_WIDTHS.consent, "left", " ") +
       formatField(
         doc.schoollevel ?? "",
         FIELD_WIDTHS.schoollevel,
@@ -475,7 +475,7 @@ function createDatFile(records) {
         " "
       ) +
       formatField(doc.email, FIELD_WIDTHS.email) +
-      formatField(doc.role ?? "", FIELD_WIDTHS.role, "left", " ") +
+      formatField(doc.role ?? "", FIELD_WIDTHS.designation, "left", " ") +
       formatField(
         reg.createdAt
           ? new Date(reg.createdAt).toISOString().split("T")[0]
