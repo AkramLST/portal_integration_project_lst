@@ -795,7 +795,18 @@ app.get("/export/dat", async (req, res) => {
     const db = client.db(dbName);
 
     const usersCollection = db.collection("users");
+    const fromParam = req.query.from ? new Date(req.query.from) : null;
+    const toParam = req.query.to ? new Date(req.query.to) : new Date();
 
+    // Default lower bound (30 Sept 2025)
+    const SEPT_30 = new Date("2025-09-30T00:00:00.000Z");
+
+    // If user-provided 'from' date is before 30 Sep 2025, use 30 Sep 2025 instead
+    const effectiveFrom =
+      fromParam && fromParam > SEPT_30 ? fromParam : SEPT_30;
+
+    // Always use provided 'to' date (or default to today)
+    const effectiveTo = toParam;
     // =======================================
     // 🧩 Aggregation Pipeline
     // =======================================
@@ -1061,12 +1072,8 @@ app.get("/export/dat", async (req, res) => {
                     $and: [
                       { $eq: ["$schoolName", "$$sch"] },
                       { $ne: ["$typeOfSession", "$$tos"] },
-                      {
-                        $gte: [
-                          "$createdAt",
-                          new Date("2025-09-30T00:00:00.000Z"),
-                        ],
-                      },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
                     ],
                   },
                 },
@@ -1093,12 +1100,8 @@ app.get("/export/dat", async (req, res) => {
                       { $eq: ["$districtStatus", "$$dt"] },
                       { $eq: ["$rejectedStatus", "$$rt"] },
                       { $ne: ["$typeOfSession", "$$tos"] },
-                      {
-                        $gte: [
-                          "$createdAt",
-                          new Date("2025-09-30T00:00:00.000Z"),
-                        ],
-                      },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
                     ],
                   },
                 },
@@ -1125,12 +1128,8 @@ app.get("/export/dat", async (req, res) => {
                       { $eq: ["$districtStatus", "$$dt"] },
                       { $eq: ["$rejectedStatus", "$$rt"] },
                       { $ne: ["$typeOfSession", "$$tos"] },
-                      {
-                        $gte: [
-                          "$createdAt",
-                          new Date("2025-09-30T00:00:00.000Z"),
-                        ],
-                      },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
                     ],
                   },
                 },
@@ -1158,12 +1157,8 @@ app.get("/export/dat", async (req, res) => {
                       { $eq: ["$districtStatus", "$$dt"] },
                       { $eq: ["$rejectedStatus", "$$rt"] },
                       { $ne: ["$typeOfSession", "$$tos"] },
-                      {
-                        $gte: [
-                          "$createdAt",
-                          new Date("2025-09-30T00:00:00.000Z"),
-                        ],
-                      },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
                     ],
                   },
                 },
@@ -1194,12 +1189,8 @@ app.get("/export/dat", async (req, res) => {
                       { $eq: ["$schoolName", "$$sch"] },
                       { $eq: ["$districtStatus", "$$dt"] },
                       { $eq: ["$rejectedStatus", "$$rt"] },
-                      {
-                        $gte: [
-                          "$createdAt",
-                          new Date("2025-09-30T00:00:00.000Z"),
-                        ],
-                      },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
                     ],
                   },
                 },
