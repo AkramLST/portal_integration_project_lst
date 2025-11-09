@@ -780,21 +780,26 @@ app.get("/test", async (req, res) => {
 
 ///////////////login
 app.post("/login", (req, res) => {
-  const { name, password } = req.query;
+  try {
+    const { name, password } = req.query;
 
-  // Read user info from file
-  // const userData = JSON.parse(fs.readFileSync(userFile, "utf-8"));
+    // Example: load from file or environment
+    const user = { name: "akrambhatti", password: "12345" };
 
-  if (name == user.name && password == user.password) {
-    // Generate JWT token
-    const token = jwt.sign({ name }, process.env.EXPORT_API_TOKEN, {
-      expiresIn: "1h",
-    });
-    return res.json({ token });
+    if (name === user.name && password === user.password) {
+      const token = jwt.sign({ name }, process.env.EXPORT_API_TOKEN, {
+        expiresIn: "1h",
+      });
+      return res.json({ token });
+    }
+
+    res.status(401).json({ message: "Invalid credentials" });
+  } catch (err) {
+    console.error("❌ Login error:", err);
+    res.status(500).json({ message: "Server error during login" });
   }
-
-  res.status(401).json({ message: "Invalid credentials" });
 });
+
 // =======================================
 // 🧩 API Endpoint: /export/dat
 // =======================================
