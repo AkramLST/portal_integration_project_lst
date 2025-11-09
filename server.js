@@ -2,6 +2,8 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
+
 const os = require("os");
 const { MongoClient } = require("mongodb");
 const authMiddleware = require("./authMiddleware");
