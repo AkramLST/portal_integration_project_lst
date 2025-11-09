@@ -778,11 +778,14 @@ app.post("/login", (req, res) => {
     // Example: load from file or environment
     const user = { name: "akrambhatti", password: "12345" };
 
-    if (name === user.name && password === user.password) {
+    if (name == user.name && password == user.password) {
       const token = jwt.sign({ name }, process.env.EXPORT_API_TOKEN, {
         expiresIn: "1h",
       });
-      return res.json({ token });
+      return res.json({
+        success: true,
+        token,
+      });
     }
 
     res.status(401).json({ message: "Invalid credentials" });
