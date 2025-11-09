@@ -7,6 +7,17 @@ const { MongoClient } = require("mongodb");
 const authMiddleware = require("./authMiddleware");
 
 const app = express();
+app.use(
+  cors({
+    origin: [
+      "http://192.168.0.109", // your frontend / Excel / client IP
+      "http://localhost:3000", // optional: allow local dev
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 app.use(express.json()); // parse application/json
 app.use(express.urlencoded({ extended: true })); // parse application/x-www-form-urlencoded
 // =======================================
