@@ -1441,7 +1441,7 @@ app.get("/export/dat", async (req, res) => {
         "STEAM Safeer Activities",
         "Teacher Hub Activities",
         "Storytelling Activities",
-        "STEAM Demo Activities",
+        "STEAM Club Demonstation Activities",
         "Whole School Activities",
         "One Day STEAM Competition",
         "STAR STEAM Club Activities",
