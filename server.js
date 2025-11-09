@@ -16,7 +16,7 @@ const mongoUri =
   "mongodb+srv://steampakistan:Test123@cluster0.voufv.mongodb.net/StemClub?retryWrites=true&w=majority";
 const client = new MongoClient(mongoUri);
 const dbName = "StemClub";
-
+const user = { name: "akrambhatti", password: "12345" };
 // =======================================
 // 🧩 Field widths for .dat formatting
 // =======================================
@@ -769,12 +769,12 @@ app.get("/test", async (req, res) => {
 
 ///////////////login
 app.post("/login", (req, res) => {
-  const { name, password } = req.body;
+  const { name, password } = req.query;
 
   // Read user info from file
   // const userData = JSON.parse(fs.readFileSync(userFile, "utf-8"));
 
-  if (name == "akrambhatti" && password == "12345") {
+  if (name == user.name && password == user.password) {
     // Generate JWT token
     const token = jwt.sign({ name }, process.env.EXPORT_API_TOKEN, {
       expiresIn: "1h",
@@ -787,7 +787,7 @@ app.post("/login", (req, res) => {
 // =======================================
 // 🧩 API Endpoint: /export/dat
 // =======================================
-app.get("/export/dat", async (req, res) => {
+app.get("/export/dat", authMiddleware, async (req, res) => {
   console.log("\n🔄 Starting .dat export process...");
 
   try {
