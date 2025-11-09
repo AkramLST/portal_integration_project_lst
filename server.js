@@ -801,7 +801,7 @@ app.post("/login", (req, res) => {
 // =======================================
 // 🧩 API Endpoint: /export/dat
 // =======================================
-app.get("/export/dat", async (req, res) => {
+app.get("/export/dat", authMiddleware, async (req, res) => {
   console.log("\n🔄 Starting .dat export process...");
 
   try {
