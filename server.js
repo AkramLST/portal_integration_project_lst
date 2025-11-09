@@ -11,7 +11,7 @@ app.use(
   cors({
     origin: [
       "http://192.168.0.109", // your frontend / Excel / client IP
-      "http://localhost:3000", // optional: allow local dev
+      "http://192.168.0.109:3000", // optional: allow local dev
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
