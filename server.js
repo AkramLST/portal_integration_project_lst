@@ -161,42 +161,27 @@ const FIELD_WIDTHS = {
   students_registered_steamculb_registration: 10,
   male_students_registered_steamculb_registration: 10,
   female_students_registered_steamculb_registration: 10,
-
-  // Perception
   teachers_participated_baseline_perception: 10,
-
-  // End Perception
   teachers_participated_endline_perception: 10,
-
   steamclubActs: 10,
-
   steamsafeerclubActs: 10,
-
   teacherhubActs: 10,
-
   storysessionActs: 10,
-
   steamclubdemoActs: 10,
-
   wholeschoolActs: 10,
-
   onedaysteamcompActs: 10,
   starsteamtotalActs: 10,
-  /////////////////
   total_acts_submitted: 10,
   total_acts_accepted: 10,
   total_acts_rejected: 10,
   total_acts_under_review: 10,
 
-  // totalSteamclubActs: 10,
   totalStudentsInSteamClubActs: 10,
   totalMaleStudentsInSteamClubActs: 10,
   totalFemaleStudentsInSteamClubActs: 10,
-  ///
   totalTeachersInSteamClubActs: 10,
   totalMaleTeachersInSteamClubActs: 10,
   totalFemaleTeachersInSteamClubActs: 10,
-  ///
   schoolwithmorethanfiveacts: 10,
 };
 
@@ -514,144 +499,36 @@ function createDatFile(records) {
         "right",
         " "
       ) +
-      // formatField(
-      //   doc.steamclubParticipants ?? 0,
-      //   FIELD_WIDTHS.steamclubParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.steamclubMaleParticipants ?? 0,
-      //   FIELD_WIDTHS.steamclubMaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.steamclubFemaleParticipants ?? 0,
-      //   FIELD_WIDTHS.steamclubFemaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
       formatField(
         doc.steamsafeerclubActs ?? 0,
         FIELD_WIDTHS.steamsafeerclubActs,
         "right",
         " "
       ) +
-      // formatField(
-      //   doc.steamsafeerclubParticipants ?? 0,
-      //   FIELD_WIDTHS.steamsafeerclubParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.steamsafeerclubMaleParticipants ?? 0,
-      //   FIELD_WIDTHS.steamsafeerclubMaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.steamsafeerclubFemaleParticipants ?? 0,
-      //   FIELD_WIDTHS.steamsafeerclubFemaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
       formatField(
         doc.teacherhubActs ?? 0,
         FIELD_WIDTHS.teacherhubActs,
         "right",
         " "
       ) +
-      // formatField(
-      //   doc.teacherhubParticipants ?? 0,
-      //   FIELD_WIDTHS.teacherhubParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.teacherhubMaleParticipants ?? 0,
-      //   FIELD_WIDTHS.teacherhubMaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.teacherhubFemaleParticipants ?? 0,
-      //   FIELD_WIDTHS.teacherhubFemaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
       formatField(
         doc.storysessionActs ?? 0,
         FIELD_WIDTHS.storysessionActs,
         "right",
         " "
       ) +
-      // formatField(
-      //   doc.storysessionParticipants ?? 0,
-      //   FIELD_WIDTHS.storysessionParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.storysessionMaleParticipants ?? 0,
-      //   FIELD_WIDTHS.storysessionMaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.storysessionFemaleParticipants ?? 0,
-      //   FIELD_WIDTHS.storysessionFemaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
       formatField(
         doc.steamclubdemoActs ?? 0,
         FIELD_WIDTHS.steamclubdemoActs,
         "right",
         " "
       ) +
-      // formatField(
-      //   doc.steamclubdemoParticipants ?? 0,
-      //   FIELD_WIDTHS.steamclubdemoParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.steamclubdemoMaleParticipants ?? 0,
-      //   FIELD_WIDTHS.steamclubdemoMaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.steamclubdemoFemaleParticipants ?? 0,
-      //   FIELD_WIDTHS.steamclubdemoFemaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
       formatField(
         doc.wholeschoolActs ?? 0,
         FIELD_WIDTHS.wholeschoolActs,
         "right",
         " "
       ) +
-      // formatField(
-      //   doc.wholeschoolParticipants ?? 0,
-      //   FIELD_WIDTHS.wholeschoolParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.wholeschoolMaleParticipants ?? 0,
-      //   FIELD_WIDTHS.wholeschoolMaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
-      // formatField(
-      //   doc.wholeschoolFemaleParticipants ?? 0,
-      //   FIELD_WIDTHS.wholeschoolFemaleParticipants,
-      //   "right",
-      //   " "
-      // ) +
       formatField(
         doc.onedaycompActs ?? 0,
         FIELD_WIDTHS.onedaysteamcompActs,
