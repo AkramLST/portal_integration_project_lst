@@ -410,14 +410,10 @@ function createCsvFile(folder, records) {
 // 🧩 Create .dat file
 // =======================================
 function createDatFile(records) {
-  // const datPath = path.join(folder, "SchoolData.dat");
-
   const lines = records.map((doc, idx) => {
-    // const levelAfterSept = calculateLevelAfterSept(doc);
-
-    const reg = doc.registration[0] || {};
-    const perc = doc.perception[0] || {};
-    const end = doc.endPerception[0] || {};
+    const reg = doc.registration?.[0] || {};
+    const perc = doc.perception?.[0] || {};
+    const end = doc.endPerception?.[0] || {};
 
     return (
       "1" +
@@ -454,7 +450,7 @@ function createDatFile(records) {
       formatField(doc.cycle ?? "", FIELD_WIDTHS.cycle, "right", " ") +
       formatField(doc.name, FIELD_WIDTHS.username) +
       formatField(
-        (doc.phone || "").replace(/\D/g, ""), // remove all non-digit chars
+        (doc.phone || "").replace(/\D/g, ""),
         FIELD_WIDTHS.phone,
         "right",
         " "
@@ -487,144 +483,10 @@ function createDatFile(records) {
         FIELD_WIDTHS.teachers_participated_baseline_perception,
         "right"
       ) +
-      // End Perception
       formatField(
         end.formDataCount,
         FIELD_WIDTHS.teachers_participated_endline_perception,
         "right"
-      ) +
-      formatField(
-        doc.steamclubActs ?? 0,
-        FIELD_WIDTHS.steamclubActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        doc.steamsafeerclubActs ?? 0,
-        FIELD_WIDTHS.steamsafeerclubActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        doc.teacherhubActs ?? 0,
-        FIELD_WIDTHS.teacherhubActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        doc.storysessionActs ?? 0,
-        FIELD_WIDTHS.storysessionActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        doc.steamclubdemoActs ?? 0,
-        FIELD_WIDTHS.steamclubdemoActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        doc.wholeschoolActs ?? 0,
-        FIELD_WIDTHS.wholeschoolActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        doc.onedaycompActs ?? 0,
-        FIELD_WIDTHS.onedaysteamcompActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        (doc.starsteamclubActs ?? 0) +
-          (doc.starsteamsafeerActs ?? 0) +
-          (doc.starteacherhubActs ?? 0) +
-          (doc.starsteamclubdemoActs ?? 0) +
-          (doc.starstorysessionActs ?? 0),
-        FIELD_WIDTHS.starsteamtotalActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        doc.totalActivities,
-        FIELD_WIDTHS.total_acts_submitted,
-        "right"
-      ) +
-      formatField(
-        doc.totalAccepted,
-        FIELD_WIDTHS.total_acts_accepted,
-        "right"
-      ) +
-      formatField(
-        doc.totalRejected,
-        FIELD_WIDTHS.total_acts_rejected,
-        "right"
-      ) +
-      formatField(
-        doc.totalPending,
-        FIELD_WIDTHS.total_acts_under_review,
-        "right"
-      ) +
-      formatField(
-        (doc.steamclubParticipants ?? 0) +
-          (doc.starsteamclubParticipants ?? 0) +
-          (doc.storysessionParticipants ?? 0) +
-          (doc.starstorysessionParticipants ?? 0) +
-          (doc.steamsafeerclubParticipants ?? 0) +
-          (doc.starsteamsafeerParticipants ?? 0) +
-          (doc.steamclubdemoParticipants ?? 0) +
-          (doc.starsteamclubdemoParticipants ?? 0),
-        FIELD_WIDTHS.totalStudentsInSteamClubActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        (doc.steamclubMaleParticipants ?? 0) +
-          (doc.starsteamclubMaleParticipants ?? 0) +
-          (doc.storysessionMaleParticipants ?? 0) +
-          (doc.starstorysessionMaleParticipants ?? 0) +
-          (doc.steamsafeerclubMaleParticipants ?? 0) +
-          (doc.starsteamsafeerMaleParticipants ?? 0) +
-          (doc.steamclubdemoMaleParticipants ?? 0) +
-          (doc.starsteamclubdemoMaleParticipants ?? 0),
-        FIELD_WIDTHS.totalMaleStudentsInSteamClubActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        (doc.steamclubFemaleParticipants ?? 0) +
-          (doc.starsteamclubFemaleParticipants ?? 0) +
-          (doc.storysessionFemaleParticipants ?? 0) +
-          (doc.starstorysessionFemaleParticipants ?? 0) +
-          (doc.steamsafeerclubFemaleParticipants ?? 0) +
-          (doc.starsteamsafeerFemaleParticipants ?? 0) +
-          (doc.steamclubdemoFemaleParticipants ?? 0) +
-          (doc.starsteamclubdemoFemaleParticipants ?? 0),
-        FIELD_WIDTHS.totalFemaleStudentsInSteamClubActs,
-        "right",
-        " "
-      ) +
-      ///
-      formatField(
-        (doc.teacherhubParticipants ?? 0) +
-          (doc.starteacherhubParticipants ?? 0),
-        FIELD_WIDTHS.totalTeachersInSteamClubActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        (doc.teacherhubMaleParticipants ?? 0) +
-          (doc.starteacherhubMaleParticipants ?? 0),
-        FIELD_WIDTHS.totalMaleTeachersInSteamClubActs,
-        "right",
-        " "
-      ) +
-      formatField(
-        (doc.teacherhubFemaleParticipants ?? 0) +
-          (doc.starteacherhubFemaleParticipants ?? 0),
-        FIELD_WIDTHS.totalFemaleTeachersInSteamClubActs,
-        "right",
-        " "
       ) +
       formatField(
         doc.totalAccepted >= 5 ? "Yes" : "No",
@@ -635,12 +497,174 @@ function createDatFile(records) {
     );
   });
 
-  // fs.writeFileSync(datPath, lines.join("\n"), "utf-8");
-  // console.log(`✅ .dat file created at: ${datPath}`);
-  // return datPath;
-  const content = lines.join("\n");
-  return content;
+  return { schoolDataContent: lines.join("\n") };
 }
+function createDatSummary(records) {
+  const totals = {
+    steamclubActs: 0,
+    steamsafeerclubActs: 0,
+    teacherhubActs: 0,
+    storysessionActs: 0,
+    steamclubdemoActs: 0,
+    wholeschoolActs: 0,
+    onedaycompActs: 0,
+    starsteamtotalActs: 0,
+    totalActivities: 0,
+    totalAccepted: 0,
+    totalRejected: 0,
+    totalPending: 0,
+    totalStudents: 0,
+    totalMaleStudents: 0,
+    totalFemaleStudents: 0,
+    totalTeachers: 0,
+    totalMaleTeachers: 0,
+    totalFemaleTeachers: 0,
+  };
+
+  // Sum all records
+  for (const doc of records) {
+    totals.steamclubActs += doc.steamclubActs ?? 0;
+    totals.steamsafeerclubActs += doc.steamsafeerclubActs ?? 0;
+    totals.teacherhubActs += doc.teacherhubActs ?? 0;
+    totals.storysessionActs += doc.storysessionActs ?? 0;
+    totals.steamclubdemoActs += doc.steamclubdemoActs ?? 0;
+    totals.wholeschoolActs += doc.wholeschoolActs ?? 0;
+    totals.onedaycompActs += doc.onedaycompActs ?? 0;
+    totals.starsteamtotalActs +=
+      (doc.starsteamclubActs ?? 0) +
+      (doc.starsteamsafeerActs ?? 0) +
+      (doc.starteacherhubActs ?? 0) +
+      (doc.starsteamclubdemoActs ?? 0) +
+      (doc.starstorysessionActs ?? 0);
+    totals.totalActivities += doc.totalActivities ?? 0;
+    totals.totalAccepted += doc.totalAccepted ?? 0;
+    totals.totalRejected += doc.totalRejected ?? 0;
+    totals.totalPending += doc.totalPending ?? 0;
+
+    totals.totalStudents +=
+      (doc.steamclubParticipants ?? 0) +
+      (doc.starsteamclubParticipants ?? 0) +
+      (doc.storysessionParticipants ?? 0) +
+      (doc.starstorysessionParticipants ?? 0) +
+      (doc.steamsafeerclubParticipants ?? 0) +
+      (doc.starsteamsafeerParticipants ?? 0) +
+      (doc.steamclubdemoParticipants ?? 0) +
+      (doc.starsteamclubdemoParticipants ?? 0);
+
+    totals.totalMaleStudents +=
+      (doc.steamclubMaleParticipants ?? 0) +
+      (doc.starsteamclubMaleParticipants ?? 0) +
+      (doc.storysessionMaleParticipants ?? 0) +
+      (doc.starstorysessionMaleParticipants ?? 0) +
+      (doc.steamsafeerclubMaleParticipants ?? 0) +
+      (doc.starsteamsafeerMaleParticipants ?? 0) +
+      (doc.steamclubdemoMaleParticipants ?? 0) +
+      (doc.starsteamclubdemoMaleParticipants ?? 0);
+
+    totals.totalFemaleStudents +=
+      (doc.steamclubFemaleParticipants ?? 0) +
+      (doc.starsteamclubFemaleParticipants ?? 0) +
+      (doc.storysessionFemaleParticipants ?? 0) +
+      (doc.starstorysessionFemaleParticipants ?? 0) +
+      (doc.steamsafeerclubFemaleParticipants ?? 0) +
+      (doc.starsteamsafeerFemaleParticipants ?? 0) +
+      (doc.steamclubdemoFemaleParticipants ?? 0) +
+      (doc.starsteamclubdemoFemaleParticipants ?? 0);
+
+    totals.totalTeachers +=
+      (doc.teacherhubParticipants ?? 0) + (doc.starteacherhubParticipants ?? 0);
+    totals.totalMaleTeachers +=
+      (doc.teacherhubMaleParticipants ?? 0) +
+      (doc.starteacherhubMaleParticipants ?? 0);
+    totals.totalFemaleTeachers +=
+      (doc.teacherhubFemaleParticipants ?? 0) +
+      (doc.starteacherhubFemaleParticipants ?? 0);
+  }
+
+  // Create single summary line
+  const summaryLine =
+    formatField(totals.steamclubActs, FIELD_WIDTHS.steamclubActs, "right") +
+    formatField(
+      totals.steamsafeerclubActs,
+      FIELD_WIDTHS.steamsafeerclubActs,
+      "right"
+    ) +
+    formatField(totals.teacherhubActs, FIELD_WIDTHS.teacherhubActs, "right") +
+    formatField(
+      totals.storysessionActs,
+      FIELD_WIDTHS.storysessionActs,
+      "right"
+    ) +
+    formatField(
+      totals.steamclubdemoActs,
+      FIELD_WIDTHS.steamclubdemoActs,
+      "right"
+    ) +
+    formatField(totals.wholeschoolActs, FIELD_WIDTHS.wholeschoolActs, "right") +
+    formatField(
+      totals.onedaycompActs,
+      FIELD_WIDTHS.onedaysteamcompActs,
+      "right"
+    ) +
+    formatField(
+      totals.starsteamtotalActs,
+      FIELD_WIDTHS.starsteamtotalActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalActivities,
+      FIELD_WIDTHS.total_acts_submitted,
+      "right"
+    ) +
+    formatField(
+      totals.totalAccepted,
+      FIELD_WIDTHS.total_acts_accepted,
+      "right"
+    ) +
+    formatField(
+      totals.totalRejected,
+      FIELD_WIDTHS.total_acts_rejected,
+      "right"
+    ) +
+    formatField(
+      totals.totalPending,
+      FIELD_WIDTHS.total_acts_under_review,
+      "right"
+    ) +
+    formatField(
+      totals.totalStudents,
+      FIELD_WIDTHS.totalStudentsInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalMaleStudents,
+      FIELD_WIDTHS.totalMaleStudentsInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalFemaleStudents,
+      FIELD_WIDTHS.totalFemaleStudentsInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalTeachers,
+      FIELD_WIDTHS.totalTeachersInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalMaleTeachers,
+      FIELD_WIDTHS.totalMaleTeachersInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalFemaleTeachers,
+      FIELD_WIDTHS.totalFemaleTeachersInSteamClubActs,
+      "right"
+    );
+
+  return { schoolSummaryContent: summaryLine };
+}
+
 ///////////////testing api
 app.get("/test", async (req, res) => {
   res.send("Testing Env Api is Working");
@@ -678,7 +702,7 @@ app.post("/login", (req, res) => {
 // =======================================
 // 🧩 API Endpoint: /export/dat
 // =======================================
-app.get("/export/dat", authMiddleware, async (req, res) => {
+app.get("/export/dat", async (req, res) => {
   console.log("req", req.query);
   console.log("\n🔄 Starting .dat export process...");
 
@@ -1444,6 +1468,606 @@ app.get("/export/dat", authMiddleware, async (req, res) => {
       res.setHeader("Content-Type", "application/octet-stream");
       res.send(datContent);
     }
+  } catch (err) {
+    console.error("❌ Error during export:", err);
+    res.status(500).json({
+      error: "Failed to export data",
+      details: err.message,
+    });
+  } finally {
+    await client.close();
+  }
+});
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+app.get("/export/sumary", async (req, res) => {
+  console.log("req", req.query);
+  console.log("\n🔄 Starting .dat export process...");
+
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+
+    const usersCollection = db.collection("users");
+    const fromParam = req.query.from ? new Date(req.query.from) : null;
+    const toParam = req.query.to ? new Date(req.query.to) : new Date();
+
+    // Default lower bound (30 Sept 2025)
+    const SEPT_30 = new Date("2025-09-30T00:00:00.000Z");
+
+    // If user-provided 'from' date is before 30 Sep 2025, use 30 Sep 2025 instead
+    const effectiveFrom =
+      fromParam && fromParam > SEPT_30 ? fromParam : SEPT_30;
+
+    // Always use provided 'to' date (or default to today)
+    const effectiveTo = toParam;
+    // =======================================
+    // 🧩 Aggregation Pipeline
+    // =======================================
+    const newrecords = await usersCollection
+      .aggregate([
+        // Only include users where ilm = true
+        { $match: { ilm: true } },
+
+        {
+          $lookup: {
+            from: "posts",
+            let: {
+              dt: true,
+              rt: false,
+              fd: false,
+              sch: "$schoolName",
+              tos: "Other",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$schoolName", "$$sch"] },
+                      { $eq: ["$districtStatus", "$$dt"] },
+                      { $eq: ["$rejectedStatus", "$$rt"] },
+                      { $eq: ["$typeOfSession", "$$tos"] },
+                      {
+                        $gte: [
+                          "$createdAt",
+                          new Date("2025-09-17T00:00:00.000Z"),
+                        ],
+                      },
+                      {
+                        $eq: [
+                          "$themeOfSession",
+                          "STEAM Club Student Registration",
+                        ],
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                $project: {
+                  numberOfParticipants: 1,
+                  maleParticipants: 1,
+                  femaleParticipants: 1,
+                  createdAt: 1,
+                },
+              },
+            ],
+            as: "registration",
+          },
+        },
+        {
+          $lookup: {
+            from: "posts",
+            let: {
+              dt: true,
+              rt: false,
+              sch: "$schoolName",
+              tos: "Other",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$schoolName", "$$sch"] },
+                      { $eq: ["$districtStatus", "$$dt"] },
+                      { $eq: ["$rejectedStatus", "$$rt"] },
+                      { $eq: ["$typeOfSession", "$$tos"] },
+                      {
+                        $eq: [
+                          "$themeOfSession",
+                          "Teachers Base-line Perception Survey",
+                        ],
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                $project: {
+                  createdAt: 1,
+                  formDataCount: {
+                    $add: [
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData1", null] },
+                              { $ne: ["$formData1", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData2", null] },
+                              { $ne: ["$formData2", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData3", null] },
+                              { $ne: ["$formData3", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData4", null] },
+                              { $ne: ["$formData4", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData5", null] },
+                              { $ne: ["$formData5", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "perception",
+          },
+        },
+        {
+          $lookup: {
+            from: "posts",
+            let: {
+              dt: true,
+              rt: false,
+              sch: "$schoolName",
+              tos: "Other",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$schoolName", "$$sch"] },
+                      { $eq: ["$districtStatus", "$$dt"] },
+                      { $eq: ["$rejectedStatus", "$$rt"] },
+                      { $eq: ["$typeOfSession", "$$tos"] },
+                      {
+                        $eq: ["$themeOfSession", "End-Line perception Survey"],
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                $project: {
+                  createdAt: 1,
+                  formDataCount: {
+                    $add: [
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData1", null] },
+                              { $ne: ["$formData1", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData2", null] },
+                              { $ne: ["$formData2", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData3", null] },
+                              { $ne: ["$formData3", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData4", null] },
+                              { $ne: ["$formData4", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                      {
+                        $cond: [
+                          {
+                            $and: [
+                              { $ne: ["$formData5", null] },
+                              { $ne: ["$formData5", {}] },
+                            ],
+                          },
+                          1,
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "endPerception",
+          },
+        },
+        {
+          $lookup: {
+            from: "posts",
+            let: { sch: "$schoolName", tos: "Other" },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$schoolName", "$$sch"] },
+                      { $ne: ["$typeOfSession", "$$tos"] },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "TotalActs",
+          },
+        },
+        {
+          $lookup: {
+            from: "posts",
+            let: {
+              sch: "$schoolName",
+              dt: true,
+              rt: false,
+              tos: "Other",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$schoolName", "$$sch"] },
+                      { $eq: ["$districtStatus", "$$dt"] },
+                      { $eq: ["$rejectedStatus", "$$rt"] },
+                      { $ne: ["$typeOfSession", "$$tos"] },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "AcceptedActs",
+          },
+        },
+        {
+          $lookup: {
+            from: "posts",
+            let: {
+              sch: "$schoolName",
+              dt: false,
+              rt: true,
+              tos: "Other",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$schoolName", "$$sch"] },
+                      { $eq: ["$districtStatus", "$$dt"] },
+                      { $eq: ["$rejectedStatus", "$$rt"] },
+                      { $ne: ["$typeOfSession", "$$tos"] },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "RejectedActs",
+          },
+        },
+        ////pending activites
+        {
+          $lookup: {
+            from: "posts",
+            let: {
+              sch: "$schoolName",
+              dt: false,
+              rt: false,
+              tos: "Other",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$schoolName", "$$sch"] },
+                      { $eq: ["$districtStatus", "$$dt"] },
+                      { $eq: ["$rejectedStatus", "$$rt"] },
+                      { $ne: ["$typeOfSession", "$$tos"] },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "PendingActs",
+          },
+        },
+        // Lookup school info
+        {
+          $lookup: {
+            from: "schools",
+            localField: "schoolName",
+            foreignField: "SchoolName",
+            as: "schoolInfo",
+          },
+        },
+        { $unwind: { path: "$schoolInfo", preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: "posts",
+            let: { dt: true, rt: false, sch: "$schoolName" },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$schoolName", "$$sch"] },
+                      { $eq: ["$districtStatus", "$$dt"] },
+                      { $eq: ["$rejectedStatus", "$$rt"] },
+                      { $gte: ["$createdAt", effectiveFrom] },
+                      { $lte: ["$createdAt", effectiveTo] },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "userActivities",
+          },
+        },
+        {
+          $unwind: {
+            path: "$userActivities",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $group: {
+            _id: {
+              userId: "$_id",
+              name: "$name",
+              email: "$email",
+              phone: "$phone",
+              province: "$province",
+              district: "$district",
+              cycle: "$cycle", // or "$cycle" depending on your user field name — adjust if needed
+              level: "$level",
+              typeOfSchool: "$typeOfSchool",
+              tierOfSchool: "$tierOfSchool",
+              role: "$role",
+              schoolName: "$schoolName",
+            },
+            school: { $first: "$schoolInfo" }, // keep full school object
+            registration: { $first: "$registration" },
+            perception: { $first: "$perception" },
+            endPerception: { $first: "$endPerception" },
+            TotalActs: { $first: "$TotalActs" },
+            AcceptedActs: { $first: "$AcceptedActs" },
+            RejectedActs: { $first: "$RejectedActs" },
+            PendingActs: { $first: "$PendingActs" },
+            activities: {
+              $push: {
+                activityType: "$userActivities.typeOfSession",
+                participants: {
+                  $toInt: {
+                    $ifNull: ["$userActivities.numberOfParticipants", 0],
+                  },
+                },
+                males: {
+                  $toInt: { $ifNull: ["$userActivities.maleParticipants", 0] },
+                },
+                females: {
+                  $toInt: {
+                    $ifNull: ["$userActivities.femaleParticipants", 0],
+                  },
+                },
+                createdAt: "$userActivities.createdAt",
+              },
+            },
+          },
+        },
+        ////level before 30 the september
+        {
+          $lookup: {
+            from: "userlogs",
+            let: { sch: "$school.SchoolName" }, // ✅ correct reference after grouping
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ["$schoolName", "$$sch"] },
+                      {
+                        $lt: [
+                          "$createdAt",
+                          new Date("2025-09-30T00:00:00.000Z"),
+                        ],
+                      },
+                      {
+                        $in: [
+                          "$info",
+                          [
+                            "Level Up from 1 to 2",
+                            "Level Up from 2 to 3",
+                            "Level Up from 3 to 4",
+                            "Level Up from 4 to 5",
+                            "Level Up from 5 to 6",
+                            "Level Up from 6 to 7",
+                            "Level Up from 7 to 8",
+                            "Level Up from 8 to 9",
+                            "Level Up from 9 to 10",
+                            "Level Up from 10 to 11",
+                            "Level Up from 11 to 12",
+                            "Level Up from 12 to 13",
+                            "Level Up from 13 to 14",
+                            "Level Up from 14 to 15",
+                          ],
+                        ],
+                      },
+                    ],
+                  },
+                },
+              },
+              { $sort: { createdAt: -1 } },
+              { $limit: 1 },
+              {
+                $addFields: {
+                  level: {
+                    $toInt: {
+                      $arrayElemAt: [
+                        {
+                          $map: {
+                            input: {
+                              $regexFindAll: { input: "$info", regex: /\d+/ },
+                            },
+                            as: "match",
+                            in: "$$match.match",
+                          },
+                        },
+                        1,
+                      ],
+                    },
+                  },
+                },
+              },
+              { $project: { level: 1, createdAt: 1 } },
+            ],
+            as: "schoolLevelBeforeSept",
+          },
+        },
+
+        // Project required fields
+        {
+          $project: {
+            _id: 0,
+            name: "$_id.name",
+            email: "$_id.email",
+            phone: "$_id.phone",
+            schoolName: "$_id.schoolName",
+            province: "$_id.province",
+            district: "$_id.district",
+            cycle: "$_id.cycle",
+            schoollevel: "$_id.level",
+            typeOfSchool: "$_id.typeOfSchool",
+            tierOfSchool: "$_id.tierOfSchool",
+            role: "$_id.role",
+
+            // school fields
+            emiscode: "$school.Emiscode", // <-- comes from schools collection (schoolInfo)
+            status: "$school.status", // <-- comes from schools collection
+            createdAt: "$school.createdAt",
+            // keep the registration/perception/endPerception arrays/objects you collected earlier
+            registration: 1,
+            perception: 1,
+            endPerception: 1,
+            activities: 1,
+            totalActivities: { $size: "$TotalActs" },
+            totalAccepted: { $size: "$AcceptedActs" },
+            totalRejected: { $size: "$RejectedActs" },
+            totalPending: { $size: "$PendingActs" },
+            // activity type counters (ensure the strings match your actual typeOfSession values)
+            ...activityProjections,
+            levelBeforeSept: {
+              $ifNull: [
+                { $arrayElemAt: ["$schoolLevelBeforeSept.level", 0] },
+                0,
+              ],
+            },
+          },
+        },
+      ])
+      .toArray();
+
+    // =======================================
+    // 🧩 Save .dat in Downloads folder
+    // =======================================
+
+    const datContent = createDatSummary(newrecords); // return string or buffer
+
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=summary-records.dat"
+    );
+    res.setHeader("Content-Type", "application/octet-stream");
+    res.send(datContent);
   } catch (err) {
     console.error("❌ Error during export:", err);
     res.status(500).json({
