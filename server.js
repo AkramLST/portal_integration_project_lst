@@ -776,7 +776,7 @@ app.post("/login", (req, res) => {
     const { name, password } = req.query;
 
     // Example: load from file or environment
-    const user = { name: "akrambhatti", password: "12345" };
+    const user = { name: "portal_integration", password: "PAMS@$spi" };
 
     if (name == user.name && password == user.password) {
       const token = jwt.sign({ name }, process.env.EXPORT_API_TOKEN, {
