@@ -491,41 +491,35 @@ function createDatFile(records) {
   return content;
 }
 function createDatSummary(records) {
-  // 🧩 Group totals by district
-  const districtTotals = {};
+  const totals = {
+    steamclubActs: 0,
+    steamsafeerclubActs: 0,
+    teacherhubActs: 0,
+    storysessionActs: 0,
+    steamclubdemoActs: 0,
+    wholeschoolActs: 0,
+    onedaycompActs: 0,
+    starsteamtotalActs: 0,
+    totalActivities: 0,
+    totalAccepted: 0,
+    totalRejected: 0,
+    totalPending: 0,
+    totalStudents: 0,
+    totalMaleStudents: 0,
+    totalFemaleStudents: 0,
+    totalTeachers: 0,
+    totalMaleTeachers: 0,
+    totalFemaleTeachers: 0,
+    teachersBaselinePerception: 0, // NEW
+    teachersEndlinePerception: 0, // NEW
+  };
 
+  // Sum all records
   for (const doc of records) {
-    const district = doc.district || "Unknown District";
-    if (!districtTotals[district]) {
-      districtTotals[district] = {
-        steamclubActs: 0,
-        steamsafeerclubActs: 0,
-        teacherhubActs: 0,
-        storysessionActs: 0,
-        steamclubdemoActs: 0,
-        wholeschoolActs: 0,
-        onedaycompActs: 0,
-        starsteamtotalActs: 0,
-        totalActivities: 0,
-        totalAccepted: 0,
-        totalRejected: 0,
-        totalPending: 0,
-        totalStudents: 0,
-        totalMaleStudents: 0,
-        totalFemaleStudents: 0,
-        totalTeachers: 0,
-        totalMaleTeachers: 0,
-        totalFemaleTeachers: 0,
-        teachers_participated_baseline_perception: 0,
-        teachers_participated_endline_perception: 0,
-      };
-    }
-
-    const totals = districtTotals[district];
-    const perc = doc.perception?.[0] || {};
-    const end = doc.endPerception?.[0] || {};
-    totals.teachers_participated_baseline_perception += perc.formDataCount ?? 0;
-    totals.teachers_participated_endline_perception += end.formDataCount ?? 0;
+    totals.teachersBaselinePerception +=
+      doc.perception?.[0]?.formDataCount ?? 0;
+    totals.teachersEndlinePerception +=
+      doc.endPerception?.[0]?.formDataCount ?? 0;
     totals.steamclubActs += doc.steamclubActs ?? 0;
     totals.steamsafeerclubActs += doc.steamsafeerclubActs ?? 0;
     totals.teacherhubActs += doc.teacherhubActs ?? 0;
@@ -564,7 +558,7 @@ function createDatSummary(records) {
       (doc.steamsafeerclubMaleParticipants ?? 0) +
       (doc.starsteamsafeerMaleParticipants ?? 0) +
       (doc.steamclubdemoMaleParticipants ?? 0) +
-      (doc.starsteamclubdemoMaleParticipants ?? 0);
+      (doc.starsteamclubDemoMaleParticipants ?? 0);
 
     totals.totalFemaleStudents +=
       (doc.steamclubFemaleParticipants ?? 0) +
@@ -574,124 +568,114 @@ function createDatSummary(records) {
       (doc.steamsafeerclubFemaleParticipants ?? 0) +
       (doc.starsteamsafeerFemaleParticipants ?? 0) +
       (doc.steamclubdemoFemaleParticipants ?? 0) +
-      (doc.starsteamclubdemoFemaleParticipants ?? 0);
+      (doc.starsteamclubDemoFemaleParticipants ?? 0);
 
     totals.totalTeachers +=
       (doc.teacherhubParticipants ?? 0) + (doc.starteacherhubParticipants ?? 0);
+
     totals.totalMaleTeachers +=
       (doc.teacherhubMaleParticipants ?? 0) +
       (doc.starteacherhubMaleParticipants ?? 0);
+
     totals.totalFemaleTeachers +=
       (doc.teacherhubFemaleParticipants ?? 0) +
       (doc.starteacherhubFemaleParticipants ?? 0);
+
+    // Add baseline and endline teacher perception counts
   }
 
-  // 🧾 Build district-wise summary lines
-  let index = 1;
-  const lines = Object.entries(districtTotals).map(([district, totals]) => {
-    return (
-      "1" +
-      formatField(index++, 6, "right", "0") +
-      formatField(district, FIELD_WIDTHS.district, "left", " ") +
-      formatField(district, FIELD_WIDTHS.district, "left", " ") +
-      formatField(
-        totals.teachers_participated_baseline_perception,
-        FIELD_WIDTHS.teachers_participated_baseline_perception,
-        "right"
-      ) +
-      formatField(
-        totals.teachers_participated_endline_perception,
-        FIELD_WIDTHS.teachers_participated_endline_perception,
-        "right"
-      ) +
-      formatField(totals.steamclubActs, FIELD_WIDTHS.steamclubActs, "right") +
-      formatField(
-        totals.steamsafeerclubActs,
-        FIELD_WIDTHS.steamsafeerclubActs,
-        "right"
-      ) +
-      formatField(totals.teacherhubActs, FIELD_WIDTHS.teacherhubActs, "right") +
-      formatField(
-        totals.storysessionActs,
-        FIELD_WIDTHS.storysessionActs,
-        "right"
-      ) +
-      formatField(
-        totals.steamclubdemoActs,
-        FIELD_WIDTHS.steamclubdemoActs,
-        "right"
-      ) +
-      formatField(
-        totals.wholeschoolActs,
-        FIELD_WIDTHS.wholeschoolActs,
-        "right"
-      ) +
-      formatField(
-        totals.onedaycompActs,
-        FIELD_WIDTHS.onedaysteamcompActs,
-        "right"
-      ) +
-      formatField(
-        totals.starsteamtotalActs,
-        FIELD_WIDTHS.starsteamtotalActs,
-        "right"
-      ) +
-      formatField(
-        totals.totalActivities,
-        FIELD_WIDTHS.total_acts_submitted,
-        "right"
-      ) +
-      formatField(
-        totals.totalAccepted,
-        FIELD_WIDTHS.total_acts_accepted,
-        "right"
-      ) +
-      formatField(
-        totals.totalRejected,
-        FIELD_WIDTHS.total_acts_rejected,
-        "right"
-      ) +
-      formatField(
-        totals.totalPending,
-        FIELD_WIDTHS.total_acts_under_review,
-        "right"
-      ) +
-      formatField(
-        totals.totalStudents,
-        FIELD_WIDTHS.totalStudentsInSteamClubActs,
-        "right"
-      ) +
-      formatField(
-        totals.totalMaleStudents,
-        FIELD_WIDTHS.totalMaleStudentsInSteamClubActs,
-        "right"
-      ) +
-      formatField(
-        totals.totalFemaleStudents,
-        FIELD_WIDTHS.totalFemaleStudentsInSteamClubActs,
-        "right"
-      ) +
-      formatField(
-        totals.totalTeachers,
-        FIELD_WIDTHS.totalTeachersInSteamClubActs,
-        "right"
-      ) +
-      formatField(
-        totals.totalMaleTeachers,
-        FIELD_WIDTHS.totalMaleTeachersInSteamClubActs,
-        "right"
-      ) +
-      formatField(
-        totals.totalFemaleTeachers,
-        FIELD_WIDTHS.totalFemaleTeachersInSteamClubActs,
-        "right"
-      )
+  // Create single summary line
+  const summaryLine =
+    formatField(
+      totals.teachersBaselinePerception,
+      FIELD_WIDTHS.teachers_participated_baseline_perception,
+      "right"
+    ) +
+    formatField(
+      totals.teachersEndlinePerception,
+      FIELD_WIDTHS.teachers_participated_endline_perception,
+      "right"
+    ) +
+    formatField(totals.steamclubActs, FIELD_WIDTHS.steamclubActs, "right") +
+    formatField(
+      totals.steamsafeerclubActs,
+      FIELD_WIDTHS.steamsafeerclubActs,
+      "right"
+    ) +
+    formatField(totals.teacherhubActs, FIELD_WIDTHS.teacherhubActs, "right") +
+    formatField(
+      totals.storysessionActs,
+      FIELD_WIDTHS.storysessionActs,
+      "right"
+    ) +
+    formatField(
+      totals.steamclubdemoActs,
+      FIELD_WIDTHS.steamclubdemoActs,
+      "right"
+    ) +
+    formatField(totals.wholeschoolActs, FIELD_WIDTHS.wholeschoolActs, "right") +
+    formatField(
+      totals.onedaycompActs,
+      FIELD_WIDTHS.onedaysteamcompActs,
+      "right"
+    ) +
+    formatField(
+      totals.starsteamtotalActs,
+      FIELD_WIDTHS.starsteamtotalActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalActivities,
+      FIELD_WIDTHS.total_acts_submitted,
+      "right"
+    ) +
+    formatField(
+      totals.totalAccepted,
+      FIELD_WIDTHS.total_acts_accepted,
+      "right"
+    ) +
+    formatField(
+      totals.totalRejected,
+      FIELD_WIDTHS.total_acts_rejected,
+      "right"
+    ) +
+    formatField(
+      totals.totalPending,
+      FIELD_WIDTHS.total_acts_under_review,
+      "right"
+    ) +
+    formatField(
+      totals.totalStudents,
+      FIELD_WIDTHS.totalStudentsInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalMaleStudents,
+      FIELD_WIDTHS.totalMaleStudentsInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalFemaleStudents,
+      FIELD_WIDTHS.totalFemaleStudentsInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalTeachers,
+      FIELD_WIDTHS.totalTeachersInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalMaleTeachers,
+      FIELD_WIDTHS.totalMaleTeachersInSteamClubActs,
+      "right"
+    ) +
+    formatField(
+      totals.totalFemaleTeachers,
+      FIELD_WIDTHS.totalFemaleTeachersInSteamClubActs,
+      "right"
     );
-  });
 
-  // 🔚 Return as joined content
-  const content = lines.join("\n");
-  return content;
+  return { schoolSummaryContent: summaryLine };
 }
 
 ///////////////testing api
@@ -1973,75 +1957,6 @@ app.get("/export/summary", async (req, res) => {
             },
           },
         },
-        ////level before 30 the september
-        {
-          $lookup: {
-            from: "userlogs",
-            let: { sch: "$school.SchoolName" }, // ✅ correct reference after grouping
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $and: [
-                      { $eq: ["$schoolName", "$$sch"] },
-                      {
-                        $lt: [
-                          "$createdAt",
-                          new Date("2025-09-30T00:00:00.000Z"),
-                        ],
-                      },
-                      {
-                        $in: [
-                          "$info",
-                          [
-                            "Level Up from 1 to 2",
-                            "Level Up from 2 to 3",
-                            "Level Up from 3 to 4",
-                            "Level Up from 4 to 5",
-                            "Level Up from 5 to 6",
-                            "Level Up from 6 to 7",
-                            "Level Up from 7 to 8",
-                            "Level Up from 8 to 9",
-                            "Level Up from 9 to 10",
-                            "Level Up from 10 to 11",
-                            "Level Up from 11 to 12",
-                            "Level Up from 12 to 13",
-                            "Level Up from 13 to 14",
-                            "Level Up from 14 to 15",
-                          ],
-                        ],
-                      },
-                    ],
-                  },
-                },
-              },
-              { $sort: { createdAt: -1 } },
-              { $limit: 1 },
-              {
-                $addFields: {
-                  level: {
-                    $toInt: {
-                      $arrayElemAt: [
-                        {
-                          $map: {
-                            input: {
-                              $regexFindAll: { input: "$info", regex: /\d+/ },
-                            },
-                            as: "match",
-                            in: "$$match.match",
-                          },
-                        },
-                        1,
-                      ],
-                    },
-                  },
-                },
-              },
-              { $project: { level: 1, createdAt: 1 } },
-            ],
-            as: "schoolLevelBeforeSept",
-          },
-        },
 
         // Project required fields
         {
@@ -2074,12 +1989,6 @@ app.get("/export/summary", async (req, res) => {
             totalPending: { $size: "$PendingActs" },
             // activity type counters (ensure the strings match your actual typeOfSession values)
             ...activityProjections,
-            levelBeforeSept: {
-              $ifNull: [
-                { $arrayElemAt: ["$schoolLevelBeforeSept.level", 0] },
-                0,
-              ],
-            },
           },
         },
       ])
