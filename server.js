@@ -490,6 +490,17 @@ function createDatFile(records) {
   const content = lines.join("\n");
   return content;
 }
+function formatField2(value, width, alignment = "right") {
+  const str = String(value ?? "");
+  if (alignment === "right") {
+    // For numeric fields, use zero-padding
+    return str.padStart(width, "0");
+  } else {
+    // For text fields, space padding is fine
+    return str.padEnd(width, " ");
+  }
+}
+
 function createDatSummary(records) {
   const totals = {
     teachersBaselinePerception: 0,
@@ -585,91 +596,95 @@ function createDatSummary(records) {
 
   // Create summary line with **ID first**, then all fields in dictionary order
   const summaryLine =
-    formatField(1, 6, "right") +
-    formatField(
+    formatField2(1, 6, "right") +
+    formatField2(
       totals.teachersBaselinePerception,
       FIELD_WIDTHS.teachers_participated_baseline_perception,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.teachersEndlinePerception,
       FIELD_WIDTHS.teachers_participated_endline_perception,
       "right"
     ) +
-    formatField(totals.steamclubActs, FIELD_WIDTHS.steamclubActs, "right") +
-    formatField(
+    formatField2(totals.steamclubActs, FIELD_WIDTHS.steamclubActs, "right") +
+    formatField2(
       totals.steamsafeerclubActs,
       FIELD_WIDTHS.steamsafeerclubActs,
       "right"
     ) +
-    formatField(totals.teacherhubActs, FIELD_WIDTHS.teacherhubActs, "right") +
-    formatField(
+    formatField2(totals.teacherhubActs, FIELD_WIDTHS.teacherhubActs, "right") +
+    formatField2(
       totals.storysessionActs,
       FIELD_WIDTHS.storysessionActs,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.steamclubdemoActs,
       FIELD_WIDTHS.steamclubdemoActs,
       "right"
     ) +
-    formatField(totals.wholeschoolActs, FIELD_WIDTHS.wholeschoolActs, "right") +
-    formatField(
+    formatField2(
+      totals.wholeschoolActs,
+      FIELD_WIDTHS.wholeschoolActs,
+      "right"
+    ) +
+    formatField2(
       totals.onedaycompActs,
       FIELD_WIDTHS.onedaysteamcompActs,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.starsteamtotalActs,
       FIELD_WIDTHS.starsteamtotalActs,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalActivities,
       FIELD_WIDTHS.total_acts_submitted,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalAccepted,
       FIELD_WIDTHS.total_acts_accepted,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalRejected,
       FIELD_WIDTHS.total_acts_rejected,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalPending,
       FIELD_WIDTHS.total_acts_under_review,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalStudents,
       FIELD_WIDTHS.totalStudentsInSteamClubActs,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalMaleStudents,
       FIELD_WIDTHS.totalMaleStudentsInSteamClubActs,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalFemaleStudents,
       FIELD_WIDTHS.totalFemaleStudentsInSteamClubActs,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalTeachers,
       FIELD_WIDTHS.totalTeachersInSteamClubActs,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalMaleTeachers,
       FIELD_WIDTHS.totalMaleTeachersInSteamClubActs,
       "right"
     ) +
-    formatField(
+    formatField2(
       totals.totalFemaleTeachers,
       FIELD_WIDTHS.totalFemaleTeachersInSteamClubActs,
       "right"
