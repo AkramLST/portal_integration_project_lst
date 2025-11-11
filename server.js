@@ -487,7 +487,8 @@ function createDatFile(records) {
     );
   });
 
-  return { schoolDataContent: lines.join("\r\n") + "\r\n" };
+  const content = lines.join("\n");
+  return content;
 }
 function createDatSummary(records) {
   // 🧩 Group totals by district
