@@ -163,25 +163,25 @@ const FIELD_WIDTHS = {
   female_students_registered_steamculb_registration: 10,
   teachers_participated_baseline_perception: 10,
   teachers_participated_endline_perception: 10,
-  steamclubActs: 10,
-  steamsafeerclubActs: 10,
-  teacherhubActs: 10,
-  storysessionActs: 10,
-  steamclubdemoActs: 10,
-  wholeschoolActs: 10,
-  onedaysteamcompActs: 10,
-  starsteamtotalActs: 10,
+  student_hands_on_activities: 10,
+  steam_safeer_clubActs: 10,
+  teacher_hub_Acts: 10,
+  story_session_Acts: 10,
+  steam_club_demo_Acts: 10,
+  whole_school_Acts: 10,
+  oneday_steam_compActs: 10,
+  star_steam_total_Acts: 10,
   total_acts_submitted: 10,
   total_acts_accepted: 10,
   total_acts_rejected: 10,
   total_acts_under_review: 10,
 
-  totalStudentsInSteamClubActs: 10,
-  totalMaleStudentsInSteamClubActs: 10,
-  totalFemaleStudentsInSteamClubActs: 10,
-  totalTeachersInSteamClubActs: 10,
-  totalMaleTeachersInSteamClubActs: 10,
-  totalFemaleTeachersInSteamClubActs: 10,
+  total_Students_In_Steam_Club_Acts: 10,
+  total_Male_Students_In_Steam_Club_Acts: 10,
+  total_Female_Students_In_Steam_Club_Acts: 10,
+  total_Teachers_In_Steam_Club_Acts: 10,
+  total_Male_Teachers_In_Steam_Club_Acts: 10,
+  total_Female_Teachers_In_Steam_Club_Acts: 10,
   schoolwithmorethanfiveacts: 10,
 };
 
@@ -560,7 +560,9 @@ function createDatSummary(records) {
       (doc.steamsafeerclubParticipants ?? 0) +
       (doc.starsteamsafeerParticipants ?? 0) +
       (doc.steamclubdemoParticipants ?? 0) +
-      (doc.starsteamclubdemoParticipants ?? 0);
+      (doc.starsteamclubdemoParticipants ?? 0) +
+      (doc.wholeschoolParticipants ?? 0) +
+      (doc.onedaycompParticipants ?? 0);
 
     totals.totalMaleStudents +=
       (doc.steamclubMaleParticipants ?? 0) +
@@ -570,7 +572,9 @@ function createDatSummary(records) {
       (doc.steamsafeerclubMaleParticipants ?? 0) +
       (doc.starsteamsafeerMaleParticipants ?? 0) +
       (doc.steamclubdemoMaleParticipants ?? 0) +
-      (doc.starsteamclubDemoMaleParticipants ?? 0);
+      (doc.starsteamclubDemoMaleParticipants ?? 0) +
+      (doc.wholeschoolMaleParticipants ?? 0) +
+      (doc.onedaycompMaleParticipants ?? 0);
 
     totals.totalFemaleStudents +=
       (doc.steamclubFemaleParticipants ?? 0) +
@@ -580,7 +584,9 @@ function createDatSummary(records) {
       (doc.steamsafeerclubFemaleParticipants ?? 0) +
       (doc.starsteamsafeerFemaleParticipants ?? 0) +
       (doc.steamclubdemoFemaleParticipants ?? 0) +
-      (doc.starsteamclubDemoFemaleParticipants ?? 0);
+      (doc.starsteamclubDemoFemaleParticipants ?? 0) +
+      (doc.wholeschoolFemaleParticipants ?? 0) +
+      (doc.onedaycompFemaleParticipants ?? 0);
 
     totals.totalTeachers +=
       (doc.teacherhubParticipants ?? 0) + (doc.starteacherhubParticipants ?? 0);
@@ -610,36 +616,44 @@ function createDatSummary(records) {
       FIELD_WIDTHS.teachers_participated_endline_perception,
       "right"
     ) +
-    formatField2(totals.steamclubActs, FIELD_WIDTHS.steamclubActs, "right") +
     formatField2(
-      totals.steamsafeerclubActs,
-      FIELD_WIDTHS.steamsafeerclubActs,
+      totals.steamclubActs,
+      FIELD_WIDTHS.student_hands_on_activities,
       "right"
     ) +
-    formatField2(totals.teacherhubActs, FIELD_WIDTHS.teacherhubActs, "right") +
+    formatField2(
+      totals.steamsafeerclubActs,
+      FIELD_WIDTHS.steam_safeer_clubActs,
+      "right"
+    ) +
+    formatField2(
+      totals.teacherhubActs,
+      FIELD_WIDTHS.teacher_hub_Acts,
+      "right"
+    ) +
     formatField2(
       totals.storysessionActs,
-      FIELD_WIDTHS.storysessionActs,
+      FIELD_WIDTHS.story_session_Acts,
       "right"
     ) +
     formatField2(
       totals.steamclubdemoActs,
-      FIELD_WIDTHS.steamclubdemoActs,
+      FIELD_WIDTHS.steam_club_demo_Acts,
       "right"
     ) +
     formatField2(
       totals.wholeschoolActs,
-      FIELD_WIDTHS.wholeschoolActs,
+      FIELD_WIDTHS.whole_school_Acts,
       "right"
     ) +
     formatField2(
       totals.onedaycompActs,
-      FIELD_WIDTHS.onedaysteamcompActs,
+      FIELD_WIDTHS.oneday_steam_compActs,
       "right"
     ) +
     formatField2(
       totals.starsteamtotalActs,
-      FIELD_WIDTHS.starsteamtotalActs,
+      FIELD_WIDTHS.star_steam_total_Acts,
       "right"
     ) +
     formatField2(
@@ -664,32 +678,32 @@ function createDatSummary(records) {
     ) +
     formatField2(
       totals.totalStudents,
-      FIELD_WIDTHS.totalStudentsInSteamClubActs,
+      FIELD_WIDTHS.total_Students_In_Steam_Club_Acts,
       "right"
     ) +
     formatField2(
       totals.totalMaleStudents,
-      FIELD_WIDTHS.totalMaleStudentsInSteamClubActs,
+      FIELD_WIDTHS.total_Male_Students_In_Steam_Club_Acts,
       "right"
     ) +
     formatField2(
       totals.totalFemaleStudents,
-      FIELD_WIDTHS.totalFemaleStudentsInSteamClubActs,
+      FIELD_WIDTHS.total_Female_Students_In_Steam_Club_Acts,
       "right"
     ) +
     formatField2(
       totals.totalTeachers,
-      FIELD_WIDTHS.totalTeachersInSteamClubActs,
+      FIELD_WIDTHS.total_Teachers_In_Steam_Club_Acts,
       "right"
     ) +
     formatField2(
       totals.totalMaleTeachers,
-      FIELD_WIDTHS.totalMaleTeachersInSteamClubActs,
+      FIELD_WIDTHS.total_Male_Teachers_In_Steam_Club_Acts,
       "right"
     ) +
     formatField2(
       totals.totalFemaleTeachers,
-      FIELD_WIDTHS.totalFemaleTeachersInSteamClubActs,
+      FIELD_WIDTHS.total_Female_Teachers_In_Steam_Club_Acts,
       "right"
     );
 
