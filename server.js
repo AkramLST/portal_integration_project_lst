@@ -487,7 +487,7 @@ function createDatFile(records) {
     );
   });
 
-  return { schoolDataContent: lines.join("\n") };
+  return { schoolDataContent: lines.join("\r\n") + "\r\n" };
 }
 function createDatSummary(records) {
   // 🧩 Group totals by district
@@ -1505,7 +1505,7 @@ app.get("/export/dat", async (req, res) => {
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-app.get("/export/sumary", async (req, res) => {
+app.get("/export/summary", async (req, res) => {
   console.log("req", req.query);
   console.log("\n🔄 Starting .dat export process...");
 
