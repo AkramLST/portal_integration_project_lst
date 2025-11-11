@@ -492,8 +492,8 @@ function createDatFile(records) {
 }
 function createDatSummary(records) {
   const totals = {
-    teachersBaselinePerception: 0, // NEW
-    teachersEndlinePerception: 0, // NEW
+    teachersBaselinePerception: 0,
+    teachersEndlinePerception: 0,
     steamclubActs: 0,
     steamsafeerclubActs: 0,
     teacherhubActs: 0,
@@ -520,7 +520,6 @@ function createDatSummary(records) {
       doc.perception?.[0]?.formDataCount ?? 0;
     totals.teachersEndlinePerception +=
       doc.endPerception?.[0]?.formDataCount ?? 0;
-
     totals.steamclubActs += doc.steamclubActs ?? 0;
     totals.steamsafeerclubActs += doc.steamsafeerclubActs ?? 0;
     totals.teacherhubActs += doc.teacherhubActs ?? 0;
@@ -583,9 +582,12 @@ function createDatSummary(records) {
       (doc.starteacherhubFemaleParticipants ?? 0);
   }
 
-  // Create summary line with baseline/endline perceptions **first**
+  // Create summary line
+  // ID/Case number at start (e.g., 1)
+  let id = 1;
+
   const summaryLine =
-    formatField(1, 6, "right") +
+    formatField(id, FIELD_WIDTHS.id, "right") + // ID first
     formatField(
       totals.teachersBaselinePerception,
       FIELD_WIDTHS.teachers_participated_baseline_perception,
@@ -675,7 +677,7 @@ function createDatSummary(records) {
       "right"
     );
 
-  return summaryLine;
+  return summaryLine; // <-- return as plain string, NOT object
 }
 
 ///////////////testing api
