@@ -585,6 +585,7 @@ function createDatSummary(records) {
 
   // Create summary line with baseline/endline perceptions **first**
   const summaryLine =
+    formatField(1, 6, "right") +
     formatField(
       totals.teachersBaselinePerception,
       FIELD_WIDTHS.teachers_participated_baseline_perception,
