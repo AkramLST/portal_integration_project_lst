@@ -674,7 +674,7 @@ function createDatSummary(records) {
       "right"
     );
 
-  return { schoolSummaryContent: summaryLine };
+  return { scl: summaryLine };
 }
 
 ///////////////testing api
