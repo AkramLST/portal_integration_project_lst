@@ -590,7 +590,8 @@ function createDatSummary(records) {
   let index = 1;
   const lines = Object.entries(districtTotals).map(([district, totals]) => {
     return (
-      formatField(index++, 6, "right", "0") + // 👈 unique ID padded with zeros
+      "1" +
+      formatField(index++, 6, "right", "0") +
       formatField(district, FIELD_WIDTHS.district, "left", " ") +
       formatField(district, FIELD_WIDTHS.district, "left", " ") +
       formatField(
