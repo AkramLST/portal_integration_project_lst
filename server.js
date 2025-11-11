@@ -585,7 +585,7 @@ function createDatSummary(records) {
 
   // Create summary line with **ID first**, then all fields in dictionary order
   const summaryLine =
-    formatField(idx + 1, 6, "right", " ") +
+    String(1) +
     formatField(
       totals.teachersBaselinePerception,
       FIELD_WIDTHS.teachers_participated_baseline_perception,
