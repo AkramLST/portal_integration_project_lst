@@ -587,10 +587,11 @@ function createDatSummary(records) {
   }
 
   // 🧾 Build district-wise summary lines
+  let index = 1;
   const lines = Object.entries(districtTotals).map(([district, totals]) => {
     return (
-      "1" +
-      formatField(idx + 1, 6, "right") +
+      formatField(index++, 5, "right", "0") + // 👈 unique ID padded with zeros
+      formatField(district, FIELD_WIDTHS.district, "left", " ") +
       formatField(district, FIELD_WIDTHS.district, "left", " ") +
       formatField(
         totals.teachers_participated_baseline_perception,
