@@ -492,6 +492,8 @@ function createDatFile(records) {
 }
 function createDatSummary(records) {
   const totals = {
+    teachersBaselinePerception: 0, // NEW
+    teachersEndlinePerception: 0, // NEW
     steamclubActs: 0,
     steamsafeerclubActs: 0,
     teacherhubActs: 0,
@@ -510,8 +512,6 @@ function createDatSummary(records) {
     totalTeachers: 0,
     totalMaleTeachers: 0,
     totalFemaleTeachers: 0,
-    teachersBaselinePerception: 0, // NEW
-    teachersEndlinePerception: 0, // NEW
   };
 
   // Sum all records
@@ -520,6 +520,7 @@ function createDatSummary(records) {
       doc.perception?.[0]?.formDataCount ?? 0;
     totals.teachersEndlinePerception +=
       doc.endPerception?.[0]?.formDataCount ?? 0;
+
     totals.steamclubActs += doc.steamclubActs ?? 0;
     totals.steamsafeerclubActs += doc.steamsafeerclubActs ?? 0;
     totals.teacherhubActs += doc.teacherhubActs ?? 0;
@@ -580,11 +581,9 @@ function createDatSummary(records) {
     totals.totalFemaleTeachers +=
       (doc.teacherhubFemaleParticipants ?? 0) +
       (doc.starteacherhubFemaleParticipants ?? 0);
-
-    // Add baseline and endline teacher perception counts
   }
 
-  // Create single summary line
+  // Create summary line with baseline/endline perceptions **first**
   const summaryLine =
     formatField(
       totals.teachersBaselinePerception,
