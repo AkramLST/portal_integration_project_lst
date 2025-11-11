@@ -582,12 +582,8 @@ function createDatSummary(records) {
       (doc.starteacherhubFemaleParticipants ?? 0);
   }
 
-  // Create summary line
-  // ID/Case number at start (e.g., 1)
-  let id = 1;
-
+  // Create summary line in the exact order of your dictionary
   const summaryLine =
-    formatField(id, FIELD_WIDTHS.id, "right") + // ID first
     formatField(
       totals.teachersBaselinePerception,
       FIELD_WIDTHS.teachers_participated_baseline_perception,
@@ -677,7 +673,7 @@ function createDatSummary(records) {
       "right"
     );
 
-  return summaryLine; // <-- return as plain string, NOT object
+  return summaryLine; // <-- plain string, matches dictionary
 }
 
 ///////////////testing api
