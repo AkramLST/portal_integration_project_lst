@@ -553,16 +553,16 @@ function createDatSummary(records) {
     totals.totalPending += doc.totalPending ?? 0;
 
     totals.totalStudents +=
-      (doc.steamclubParticipants ?? 0) +
-      (doc.starsteamclubParticipants ?? 0) +
-      (doc.storysessionParticipants ?? 0) +
-      (doc.starstorysessionParticipants ?? 0) +
-      (doc.steamsafeerclubParticipants ?? 0) +
-      (doc.starsteamsafeerParticipants ?? 0) +
-      (doc.steamclubdemoParticipants ?? 0) +
-      (doc.starsteamclubdemoParticipants ?? 0) +
-      (doc.wholeschoolParticipants ?? 0) +
-      (doc.onedaycompParticipants ?? 0);
+      Number(doc.steamclubParticipants ?? 0) +
+      Number(doc.starsteamclubParticipants ?? 0) +
+      Number(doc.storysessionParticipants ?? 0) +
+      Number(doc.starstorysessionParticipants ?? 0) +
+      Number(doc.steamsafeerclubParticipants ?? 0) +
+      Number(doc.starsteamsafeerParticipants ?? 0) +
+      Number(doc.steamclubdemoParticipants ?? 0) +
+      Number(doc.starsteamclubdemoParticipants ?? 0) +
+      Number(doc.wholeschoolParticipants ?? 0) +
+      Number(doc.onedaycompParticipants ?? 0);
 
     totals.totalMaleStudents +=
       (doc.steamclubMaleParticipants ?? 0) +
