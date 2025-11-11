@@ -733,7 +733,7 @@ app.post("/login", (req, res) => {
 // =======================================
 // 🧩 API Endpoint: /export/dat
 // =======================================
-app.get("/export/dat", async (req, res) => {
+app.get("/export/dat", authMiddleware, async (req, res) => {
   console.log("req", req.query);
   console.log("\n🔄 Starting .dat export process...");
 
@@ -1511,7 +1511,7 @@ app.get("/export/dat", async (req, res) => {
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-app.get("/export/summary", async (req, res) => {
+app.get("/export/summary", authMiddleware, async (req, res) => {
   console.log("req", req.query);
   console.log("\n🔄 Starting .dat export process...");
 
