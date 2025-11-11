@@ -520,6 +520,7 @@ function createDatSummary(records) {
       doc.perception?.[0]?.formDataCount ?? 0;
     totals.teachersEndlinePerception +=
       doc.endPerception?.[0]?.formDataCount ?? 0;
+
     totals.steamclubActs += doc.steamclubActs ?? 0;
     totals.steamsafeerclubActs += doc.steamsafeerclubActs ?? 0;
     totals.teacherhubActs += doc.teacherhubActs ?? 0;
@@ -582,8 +583,9 @@ function createDatSummary(records) {
       (doc.starteacherhubFemaleParticipants ?? 0);
   }
 
-  // Create summary line in the exact order of your dictionary
+  // Create summary line with **ID first**, then all fields in dictionary order
   const summaryLine =
+    formatField(1, 6, "right") + // ID field
     formatField(
       totals.teachersBaselinePerception,
       FIELD_WIDTHS.teachers_participated_baseline_perception,
@@ -673,7 +675,7 @@ function createDatSummary(records) {
       "right"
     );
 
-  return summaryLine; // <-- plain string, matches dictionary
+  return summaryLine; // <-- return as plain string for CSPro
 }
 
 ///////////////testing api
