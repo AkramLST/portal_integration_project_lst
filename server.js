@@ -595,7 +595,10 @@ function createDatSummary(records) {
   }
 
   // Create summary line with **ID first**, then all fields in dictionary order
+  const RECORD_TYPE = "1"; // or "A" depending on your CSPro record setup
+
   const summaryLine =
+    RECORD_TYPE + // record type first!
     formatField2(1, 6, "right") +
     formatField2(
       totals.teachersBaselinePerception,
