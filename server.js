@@ -524,7 +524,8 @@ function createDatSummary(records) {
     const totals = districtTotals[district];
     const perc = doc.perception?.[0] || {};
     const end = doc.endPerception?.[0] || {};
-
+    totals.teachers_participated_baseline_perception += perc.formDataCount ?? 0;
+    totals.teachers_participated_endline_perception += end.formDataCount ?? 0;
     totals.steamclubActs += doc.steamclubActs ?? 0;
     totals.steamsafeerclubActs += doc.steamsafeerclubActs ?? 0;
     totals.teacherhubActs += doc.teacherhubActs ?? 0;
@@ -583,14 +584,13 @@ function createDatSummary(records) {
     totals.totalFemaleTeachers +=
       (doc.teacherhubFemaleParticipants ?? 0) +
       (doc.starteacherhubFemaleParticipants ?? 0);
-
-    totals.teachers_participated_baseline_perception += perc.formDataCount ?? 0;
-    totals.teachers_participated_endline_perception += end.formDataCount ?? 0;
   }
 
   // 🧾 Build district-wise summary lines
   const lines = Object.entries(districtTotals).map(([district, totals]) => {
     return (
+      "1" +
+      formatField(idx + 1, 6, "right") +
       formatField(district, FIELD_WIDTHS.district, "left", " ") +
       formatField(
         totals.teachers_participated_baseline_perception,
