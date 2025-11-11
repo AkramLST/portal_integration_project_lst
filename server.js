@@ -584,7 +584,7 @@ function createDatSummary(records) {
       (doc.steamsafeerclubFemaleParticipants ?? 0) +
       (doc.starsteamsafeerFemaleParticipants ?? 0) +
       (doc.steamclubdemoFemaleParticipants ?? 0) +
-      (doc.starsteamclubDemoFemaleParticipants ?? 0) +
+      (doc.starsteamclubdemoFemaleParticipants ?? 0) +
       (doc.wholeschoolFemaleParticipants ?? 0) +
       (doc.onedaycompFemaleParticipants ?? 0);
 
