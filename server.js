@@ -688,7 +688,8 @@ function createDatSummary(records) {
   });
 
   // 🔚 Return as joined content
-  return { schoolSummaryContent: lines.join("\n") };
+  const content = lines.join("\n");
+  return content;
 }
 
 ///////////////testing api
