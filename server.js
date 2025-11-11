@@ -449,13 +449,13 @@ function createDatFile(records) {
       ) +
       formatField(doc.cycle ?? "", FIELD_WIDTHS.cycle, "right", " ") +
       formatField(doc.name, FIELD_WIDTHS.username) +
-      formatField(
-        (doc.phone || "").replace(/\D/g, ""),
-        FIELD_WIDTHS.phone,
-        "right",
-        " "
-      ) +
-      formatField(doc.email, FIELD_WIDTHS.email) +
+      // formatField(
+      //   (doc.phone || "").replace(/\D/g, ""),
+      //   FIELD_WIDTHS.phone,
+      //   "right",
+      //   " "
+      // ) +
+      // formatField(doc.email, FIELD_WIDTHS.email) +
       formatField(doc.role ?? "", FIELD_WIDTHS.designation, "left", " ") +
       formatField(
         reg.createdAt
