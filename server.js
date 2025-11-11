@@ -479,16 +479,6 @@ function createDatFile(records) {
         "right"
       ) +
       formatField(
-        perc.formDataCount,
-        FIELD_WIDTHS.teachers_participated_baseline_perception,
-        "right"
-      ) +
-      formatField(
-        end.formDataCount,
-        FIELD_WIDTHS.teachers_participated_endline_perception,
-        "right"
-      ) +
-      formatField(
         doc.totalAccepted >= 5 ? "Yes" : "No",
         FIELD_WIDTHS.schoolwithmorethanfiveacts,
         "left",
@@ -500,29 +490,40 @@ function createDatFile(records) {
   return { schoolDataContent: lines.join("\n") };
 }
 function createDatSummary(records) {
-  const totals = {
-    steamclubActs: 0,
-    steamsafeerclubActs: 0,
-    teacherhubActs: 0,
-    storysessionActs: 0,
-    steamclubdemoActs: 0,
-    wholeschoolActs: 0,
-    onedaycompActs: 0,
-    starsteamtotalActs: 0,
-    totalActivities: 0,
-    totalAccepted: 0,
-    totalRejected: 0,
-    totalPending: 0,
-    totalStudents: 0,
-    totalMaleStudents: 0,
-    totalFemaleStudents: 0,
-    totalTeachers: 0,
-    totalMaleTeachers: 0,
-    totalFemaleTeachers: 0,
-  };
+  // 🧩 Group totals by district
+  const districtTotals = {};
 
-  // Sum all records
   for (const doc of records) {
+    const district = doc.district || "Unknown District";
+    if (!districtTotals[district]) {
+      districtTotals[district] = {
+        steamclubActs: 0,
+        steamsafeerclubActs: 0,
+        teacherhubActs: 0,
+        storysessionActs: 0,
+        steamclubdemoActs: 0,
+        wholeschoolActs: 0,
+        onedaycompActs: 0,
+        starsteamtotalActs: 0,
+        totalActivities: 0,
+        totalAccepted: 0,
+        totalRejected: 0,
+        totalPending: 0,
+        totalStudents: 0,
+        totalMaleStudents: 0,
+        totalFemaleStudents: 0,
+        totalTeachers: 0,
+        totalMaleTeachers: 0,
+        totalFemaleTeachers: 0,
+        teachers_participated_baseline_perception: 0,
+        teachers_participated_endline_perception: 0,
+      };
+    }
+
+    const totals = districtTotals[district];
+    const perc = doc.perception?.[0] || {};
+    const end = doc.endPerception?.[0] || {};
+
     totals.steamclubActs += doc.steamclubActs ?? 0;
     totals.steamsafeerclubActs += doc.steamsafeerclubActs ?? 0;
     totals.teacherhubActs += doc.teacherhubActs ?? 0;
@@ -530,12 +531,14 @@ function createDatSummary(records) {
     totals.steamclubdemoActs += doc.steamclubdemoActs ?? 0;
     totals.wholeschoolActs += doc.wholeschoolActs ?? 0;
     totals.onedaycompActs += doc.onedaycompActs ?? 0;
+
     totals.starsteamtotalActs +=
       (doc.starsteamclubActs ?? 0) +
       (doc.starsteamsafeerActs ?? 0) +
       (doc.starteacherhubActs ?? 0) +
       (doc.starsteamclubdemoActs ?? 0) +
       (doc.starstorysessionActs ?? 0);
+
     totals.totalActivities += doc.totalActivities ?? 0;
     totals.totalAccepted += doc.totalAccepted ?? 0;
     totals.totalRejected += doc.totalRejected ?? 0;
@@ -579,90 +582,112 @@ function createDatSummary(records) {
     totals.totalFemaleTeachers +=
       (doc.teacherhubFemaleParticipants ?? 0) +
       (doc.starteacherhubFemaleParticipants ?? 0);
+
+    totals.teachers_participated_baseline_perception += perc.formDataCount ?? 0;
+    totals.teachers_participated_endline_perception += end.formDataCount ?? 0;
   }
 
-  // Create single summary line
-  const summaryLine =
-    formatField(totals.steamclubActs, FIELD_WIDTHS.steamclubActs, "right") +
-    formatField(
-      totals.steamsafeerclubActs,
-      FIELD_WIDTHS.steamsafeerclubActs,
-      "right"
-    ) +
-    formatField(totals.teacherhubActs, FIELD_WIDTHS.teacherhubActs, "right") +
-    formatField(
-      totals.storysessionActs,
-      FIELD_WIDTHS.storysessionActs,
-      "right"
-    ) +
-    formatField(
-      totals.steamclubdemoActs,
-      FIELD_WIDTHS.steamclubdemoActs,
-      "right"
-    ) +
-    formatField(totals.wholeschoolActs, FIELD_WIDTHS.wholeschoolActs, "right") +
-    formatField(
-      totals.onedaycompActs,
-      FIELD_WIDTHS.onedaysteamcompActs,
-      "right"
-    ) +
-    formatField(
-      totals.starsteamtotalActs,
-      FIELD_WIDTHS.starsteamtotalActs,
-      "right"
-    ) +
-    formatField(
-      totals.totalActivities,
-      FIELD_WIDTHS.total_acts_submitted,
-      "right"
-    ) +
-    formatField(
-      totals.totalAccepted,
-      FIELD_WIDTHS.total_acts_accepted,
-      "right"
-    ) +
-    formatField(
-      totals.totalRejected,
-      FIELD_WIDTHS.total_acts_rejected,
-      "right"
-    ) +
-    formatField(
-      totals.totalPending,
-      FIELD_WIDTHS.total_acts_under_review,
-      "right"
-    ) +
-    formatField(
-      totals.totalStudents,
-      FIELD_WIDTHS.totalStudentsInSteamClubActs,
-      "right"
-    ) +
-    formatField(
-      totals.totalMaleStudents,
-      FIELD_WIDTHS.totalMaleStudentsInSteamClubActs,
-      "right"
-    ) +
-    formatField(
-      totals.totalFemaleStudents,
-      FIELD_WIDTHS.totalFemaleStudentsInSteamClubActs,
-      "right"
-    ) +
-    formatField(
-      totals.totalTeachers,
-      FIELD_WIDTHS.totalTeachersInSteamClubActs,
-      "right"
-    ) +
-    formatField(
-      totals.totalMaleTeachers,
-      FIELD_WIDTHS.totalMaleTeachersInSteamClubActs,
-      "right"
-    ) +
-    formatField(
-      totals.totalFemaleTeachers,
-      FIELD_WIDTHS.totalFemaleTeachersInSteamClubActs,
-      "right"
+  // 🧾 Build district-wise summary lines
+  const lines = Object.entries(districtTotals).map(([district, totals]) => {
+    return (
+      formatField(district, FIELD_WIDTHS.district, "left", " ") +
+      formatField(
+        totals.teachers_participated_baseline_perception,
+        FIELD_WIDTHS.teachers_participated_baseline_perception,
+        "right"
+      ) +
+      formatField(
+        totals.teachers_participated_endline_perception,
+        FIELD_WIDTHS.teachers_participated_endline_perception,
+        "right"
+      ) +
+      formatField(totals.steamclubActs, FIELD_WIDTHS.steamclubActs, "right") +
+      formatField(
+        totals.steamsafeerclubActs,
+        FIELD_WIDTHS.steamsafeerclubActs,
+        "right"
+      ) +
+      formatField(totals.teacherhubActs, FIELD_WIDTHS.teacherhubActs, "right") +
+      formatField(
+        totals.storysessionActs,
+        FIELD_WIDTHS.storysessionActs,
+        "right"
+      ) +
+      formatField(
+        totals.steamclubdemoActs,
+        FIELD_WIDTHS.steamclubdemoActs,
+        "right"
+      ) +
+      formatField(
+        totals.wholeschoolActs,
+        FIELD_WIDTHS.wholeschoolActs,
+        "right"
+      ) +
+      formatField(
+        totals.onedaycompActs,
+        FIELD_WIDTHS.onedaysteamcompActs,
+        "right"
+      ) +
+      formatField(
+        totals.starsteamtotalActs,
+        FIELD_WIDTHS.starsteamtotalActs,
+        "right"
+      ) +
+      formatField(
+        totals.totalActivities,
+        FIELD_WIDTHS.total_acts_submitted,
+        "right"
+      ) +
+      formatField(
+        totals.totalAccepted,
+        FIELD_WIDTHS.total_acts_accepted,
+        "right"
+      ) +
+      formatField(
+        totals.totalRejected,
+        FIELD_WIDTHS.total_acts_rejected,
+        "right"
+      ) +
+      formatField(
+        totals.totalPending,
+        FIELD_WIDTHS.total_acts_under_review,
+        "right"
+      ) +
+      formatField(
+        totals.totalStudents,
+        FIELD_WIDTHS.totalStudentsInSteamClubActs,
+        "right"
+      ) +
+      formatField(
+        totals.totalMaleStudents,
+        FIELD_WIDTHS.totalMaleStudentsInSteamClubActs,
+        "right"
+      ) +
+      formatField(
+        totals.totalFemaleStudents,
+        FIELD_WIDTHS.totalFemaleStudentsInSteamClubActs,
+        "right"
+      ) +
+      formatField(
+        totals.totalTeachers,
+        FIELD_WIDTHS.totalTeachersInSteamClubActs,
+        "right"
+      ) +
+      formatField(
+        totals.totalMaleTeachers,
+        FIELD_WIDTHS.totalMaleTeachersInSteamClubActs,
+        "right"
+      ) +
+      formatField(
+        totals.totalFemaleTeachers,
+        FIELD_WIDTHS.totalFemaleTeachersInSteamClubActs,
+        "right"
+      )
     );
+  });
 
-  return { schoolSummaryContent: summaryLine };
+  // 🔚 Return as joined content
+  return { schoolSummaryContent: lines.join("\n") };
 }
 
 ///////////////testing api
