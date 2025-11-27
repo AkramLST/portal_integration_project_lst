@@ -15,8 +15,7 @@ app.use(express.urlencoded({ extended: true })); // parse application/x-www-form
 // =======================================
 // 🧩 MongoDB setup
 // =======================================
-const mongoUri =
-  "mongodb+srv://steampakistan:Test123@cluster0.voufv.mongodb.net/StemClub?retryWrites=true&w=majority";
+const mongoUri =process.env.DATABASE;
 const client = new MongoClient(mongoUri);
 const dbName = "StemClub";
 const user = { name: "akrambhatti", password: "12345" };
@@ -406,6 +405,26 @@ function createCsvFile(folder, records) {
   return csvPath;
 }
 
+// function for level display
+
+function levelLabel (level){
+  switch(level)
+  {
+     case 111:
+        return "11+";
+      case 112:
+        return "12+";
+      case 113:
+        return "13+";
+      case 114:
+        return "14+";
+      case 115:
+        return "15+";
+      default:
+        return level;
+  }
+}
+
 // =======================================
 // 🧩 Create .dat file
 // =======================================
@@ -414,6 +433,7 @@ function createDatFile(records) {
     const reg = doc.registration?.[0] || {};
     const perc = doc.perception?.[0] || {};
     const end = doc.endPerception?.[0] || {};
+    doc.schoollevel = levelLabel(doc.schoollevel);
 
     return (
       "1" +
