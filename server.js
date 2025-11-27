@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true })); // parse application/x-www-form
 // =======================================
 // 🧩 MongoDB setup
 // =======================================
-const mongoUri =process.env.DATABASE;
+const mongoUri = process.env.DATABASE;
 const client = new MongoClient(mongoUri);
 const dbName = "StemClub";
 const user = { name: "akrambhatti", password: "12345" };
@@ -407,21 +407,20 @@ function createCsvFile(folder, records) {
 
 // function for level display
 
-function levelLabel (level){
-  switch(level)
-  {
-     case 111:
-        return "11+";
-      case 112:
-        return "12+";
-      case 113:
-        return "13+";
-      case 114:
-        return "14+";
-      case 115:
-        return "15+";
-      default:
-        return level;
+function levelLabel(level) {
+  switch (level) {
+    case 111:
+      return "11+";
+    case 112:
+      return "12+";
+    case 113:
+      return "13+";
+    case 114:
+      return "14+";
+    case 115:
+      return "15+";
+    default:
+      return level;
   }
 }
 
@@ -2074,5 +2073,5 @@ app.get("/export/summary", authMiddleware, async (req, res) => {
 // =======================================
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log(`✅ API running at: http://localhost:${PORT}/export/dat`);
+  console.log(`✅ API's running at: http://localhost:${PORT}/export/dat`);
 });
